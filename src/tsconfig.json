@@ -5,7 +5,8 @@
         "outDir": "../../dist/src/modules"
     },
     "include": [
-        "modules/**/*"
+        "modules/**/*",
+        "prisma/**/*",
     ],
     "exclude": [
         "node_modules",
