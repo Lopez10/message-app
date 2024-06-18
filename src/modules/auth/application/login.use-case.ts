@@ -33,6 +33,11 @@ export class Login
 		}
 
 		const auth = await this.authRepository.findByUserId(user.id);
+
+		if (!auth) {
+			return Either.left(new InvalidUsernameOrPasswordException());
+		}
+
 		const isPasswordMatch = await auth.password.compare(request.password);
 
 		if (!isPasswordMatch) {
