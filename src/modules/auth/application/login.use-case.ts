@@ -24,8 +24,13 @@ export class Login
 	async run(
 		request: LoginDto,
 	): Promise<Either<InvalidUsernameOrPasswordException, string>> {
-		const email = new Email(request.email);
-		const user = await this.userRepository.findByEmail(email);
+		const email = Email.create(request.email);
+
+		if (email.isLeft()) {
+			return Either.left(new InvalidUsernameOrPasswordException());
+		}
+
+		const user = await this.userRepository.findByEmail(email.get());
 
 		if (!user) {
 			return Either.left(new InvalidUsernameOrPasswordException());

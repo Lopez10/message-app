@@ -11,11 +11,11 @@ export class JwtTokenService implements JwtTokenServicePort {
 		name: string;
 	}): JwtToken {
 		const token = this.jwtService.sign(payload);
-		return new JwtToken(token);
+		return JwtToken.create(token);
 	}
 
 	verifyToken(token: string): JwtToken {
 		this.jwtService.verify(token);
-		return new JwtToken(token);
+		return JwtToken.create(token);
 	}
 }
