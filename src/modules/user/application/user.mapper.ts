@@ -1,4 +1,4 @@
-import { Email } from '@lib';
+import { Email } from '../domain/email.value-object';
 import { User, type UserPrimitives } from '../domain/user.entity';
 
 export class UserMapper {

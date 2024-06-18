@@ -1,5 +1,6 @@
-import type { Email, Id } from '@lib';
+import type { Id } from '@lib';
 import type { User } from './user.entity';
+import type { Email } from './email.value-object';
 
 export interface UserRepositoryPort {
 	findByEmail(email: Email): Promise<User | null>;

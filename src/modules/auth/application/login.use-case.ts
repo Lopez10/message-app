@@ -1,12 +1,8 @@
-import {
-	Email,
-	InvalidUsernameOrPasswordException,
-	Either,
-	type UseCase,
-} from '@lib';
+import { InvalidUsernameOrPasswordException, Either, type UseCase } from '@lib';
 import type { AuthRepositoryPort } from '../domain/auth.repository.port';
 import type { UserRepositoryPort } from '@modules/user/domain/user.repository.port';
 import type { JwtTokenServicePort } from '../domain/jwt/jwt-token.service.port';
+import { Email } from '@modules/user/domain/email.value-object';
 
 export type LoginDto = {
 	email: string;

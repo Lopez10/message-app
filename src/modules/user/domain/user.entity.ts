@@ -1,5 +1,6 @@
-import { Either, type Email, Entity, ExceptionBase, type Id } from '@lib';
+import { Either, Entity, ExceptionBase, type Id } from '@lib';
 import type { UserEntityUnknownException } from './user.entity.exception';
+import type { Email } from './email.value-object';
 
 export interface UserPrimitives {
 	id: string;
