@@ -3,7 +3,7 @@ import { Entity, Result, type Id } from '@lib';
 export interface UserProps {
 	name: string;
 	email: string;
-	isActive?: boolean;
+	isActive: boolean;
 }
 
 export class User extends Entity<UserProps> {
@@ -13,6 +13,10 @@ export class User extends Entity<UserProps> {
 
 	get email() {
 		return this.props.email;
+	}
+
+	get isActive() {
+		return this.props.isActive;
 	}
 
 	private constructor(props: UserProps, id?: Id) {
