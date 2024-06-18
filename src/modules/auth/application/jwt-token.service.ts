@@ -1,9 +1,9 @@
 import type { JwtTokenServicePort } from '../domain/jwt/jwt-token.service.port';
 import { JwtToken } from '../domain/jwt/jwt-token.value-object';
-import type { JwtServicePort } from '../domain/jwt/jwt.service.port';
+import type { JwtService } from '@nestjs/jwt';
 
 export class JwtTokenService implements JwtTokenServicePort {
-	constructor(private jwtService: JwtServicePort) {}
+	constructor(private jwtService: JwtService) {}
 
 	generateToken(payload: {
 		id: string;
