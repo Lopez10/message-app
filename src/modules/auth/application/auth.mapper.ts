@@ -12,4 +12,13 @@ export class AuthMapper {
 			refreshToken: JwtToken.create(authDto.refreshToken),
 		}).get();
 	}
+
+	static toDto(auth: Auth): AuthPrimitives {
+		return {
+			userId: auth.userId.value,
+			password: auth.password.value,
+			accessToken: auth.accessToken.value,
+			refreshToken: auth.refreshToken.value,
+		};
+	}
 }

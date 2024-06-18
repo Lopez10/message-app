@@ -7,10 +7,7 @@ export class AuthMother {
 		const authDto: AuthPrimitives = {
 			userId: '38010560-d08f-42d8-a3e5-72d55aa51e07',
 			accessToken: 'accessToken',
-			password: {
-				value: '12345testT',
-				hashed: false,
-			},
+			password: '1234Password',
 			refreshToken: 'refreshToken',
 			...params,
 		};

@@ -18,9 +18,7 @@ describe('Login Use Case', () => {
 		const userRepository = new UserMemoryRepository();
 		const jwtService = new JwtTokenServiceMock();
 
-		await authRepository.insert(
-			AuthMother.create({ password: { value: password } }),
-		);
+		await authRepository.insert(AuthMother.create({ password }));
 		await userRepository.insert(UserMother.create({ email }));
 
 		const loginUseCase = new Login(authRepository, userRepository, jwtService);
@@ -53,9 +51,7 @@ describe('Login Use Case', () => {
 		const userRepository = new UserMemoryRepository();
 		const jwtService = new JwtTokenServiceMock();
 
-		await authRepository.insert(
-			AuthMother.create({ password: { value: password } }),
-		);
+		await authRepository.insert(AuthMother.create({ password }));
 		await userRepository.insert(UserMother.create({ email }));
 
 		const loginUseCase = new Login(authRepository, userRepository, jwtService);
@@ -85,9 +81,7 @@ describe('Login Use Case', () => {
 		const userRepository = new UserMemoryRepository();
 		const jwtService = new JwtTokenServiceMock();
 
-		await authRepository.insert(
-			AuthMother.create({ password: { value: password } }),
-		);
+		await authRepository.insert(AuthMother.create({ password }));
 		await userRepository.insert(UserMother.create({ email }));
 
 		const loginUseCase = new Login(authRepository, userRepository, jwtService);

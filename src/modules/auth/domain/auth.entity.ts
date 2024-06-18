@@ -1,6 +1,6 @@
 import { Either, Entity, type Id } from '@lib';
 import type { JwtToken } from './jwt/jwt-token.value-object';
-import type { Password, PasswordPrimitives } from './password.value-object';
+import type { Password } from './password.value-object';
 import type { AuthEntityUnknownException } from './auth.entity.exception';
 
 export interface AuthProps {
@@ -12,7 +12,7 @@ export interface AuthProps {
 
 export interface AuthPrimitives {
 	userId: string;
-	password: PasswordPrimitives;
+	password: string;
 	accessToken: string;
 	refreshToken: string;
 }

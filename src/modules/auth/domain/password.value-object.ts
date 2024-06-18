@@ -8,25 +8,11 @@ import {
 	PasswordWithoutUppercaseException,
 } from './password.value-object.exceptions';
 
-export interface PasswordProps {
-	value: string;
-	hashed?: boolean;
-}
-
-export interface PasswordPrimitives {
-	value: string;
-	hashed?: boolean;
-}
-
-export class Password extends ValueObject<PasswordProps> {
+export class Password extends ValueObject<string> {
 	private static readonly SALT_ROUNDS = 10;
 
-	private constructor({ value, hashed }: PasswordProps) {
-		super({ value, hashed });
-		if (!hashed) {
-			this.props.value = this.hashPassword(value);
-			this.props.hashed = true;
-		}
+	private constructor(value: string) {
+		super({ value });
 	}
 
 	public get value(): string {
@@ -37,14 +23,13 @@ export class Password extends ValueObject<PasswordProps> {
 		return await bcrypt.compare(plainText, this.props.value);
 	}
 
-	private hashPassword(password: string): string {
-		const salt = bcrypt.genSaltSync(Password.SALT_ROUNDS);
-		return bcrypt.hashSync(password, salt);
+	static rehydrate(hash: string): Password {
+		return new Password(hash);
 	}
 
-	public static create({
-		value: password,
-	}: PasswordProps): Either<
+	public static create(
+		value: string,
+	): Either<
 		| PasswordTooShortException
 		| PasswordTooLongException
 		| PasswordWithoutNumberException
@@ -52,21 +37,25 @@ export class Password extends ValueObject<PasswordProps> {
 		| PasswordWithoutUppercaseException,
 		Password
 	> {
-		if (password.length < 8) {
+		if (value.length < 8) {
 			return Either.left(new PasswordTooShortException());
 		}
-		if (password.length > 50) {
+		if (value.length > 50) {
 			return Either.left(new PasswordTooLongException());
 		}
-		if (!/[A-Z]/.test(password)) {
+		if (!/[A-Z]/.test(value)) {
 			return Either.left(new PasswordWithoutUppercaseException());
 		}
-		if (!/[a-z]/.test(password)) {
+		if (!/[a-z]/.test(value)) {
 			return Either.left(new PasswordWithoutLowercaseException());
 		}
-		if (!/[0-9]/.test(password)) {
+		if (!/[0-9]/.test(value)) {
 			return Either.left(new PasswordWithoutNumberException());
 		}
-		return Either.right(new Password({ value: password }));
+
+		const salt = bcrypt.genSaltSync(Password.SALT_ROUNDS);
+		const hashPassword = bcrypt.hashSync(value, salt);
+
+		return Either.right(new Password(hashPassword));
 	}
 }
