@@ -1,6 +1,8 @@
 import { UserModule } from '@modules/user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
+import { AuthModule } from '@modules/auth/auth.module';
+import { MessageModule } from '@modules/message/message.module';
 
 @Module({
 	imports: [
@@ -9,6 +11,8 @@ import { Module } from '@nestjs/common';
 			isGlobal: true,
 		}),
 		UserModule,
+		AuthModule,
+		MessageModule,
 	],
 	controllers: [],
 	providers: [],
