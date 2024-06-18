@@ -11,6 +11,7 @@ export interface AuthProps {
 }
 
 export interface AuthPrimitives {
+	id?: string;
 	userId: string;
 	password: string;
 	accessToken: string;
@@ -42,14 +43,15 @@ export class Auth extends Entity<AuthProps> {
 		this.props.refreshToken = token;
 	}
 
-	private constructor(props: AuthProps) {
+	private constructor(props: AuthProps, id?: Id) {
 		super(props);
 	}
 
 	public static create(
 		props: AuthProps,
+		id?: Id,
 	): Either<AuthEntityUnknownException, Auth> {
-		const auth = new Auth(props);
+		const auth = new Auth(props, id);
 
 		return Either.right(auth);
 	}
