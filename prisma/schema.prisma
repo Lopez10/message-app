@@ -8,10 +8,11 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  email String @unique
-  auth  Auth?
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String  @unique
+  isActive Boolean @default(true)
+  auth     Auth?
 }
 
 model Auth {
