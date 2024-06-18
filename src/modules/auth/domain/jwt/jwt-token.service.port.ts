@@ -1,6 +1,14 @@
 import type { JwtToken } from './jwt-token.value-object';
 
 export interface JwtTokenServicePort {
-	generateToken(userId: string): JwtToken;
+	generateToken({
+		id,
+		email,
+		name,
+	}: {
+		id: string;
+		email: string;
+		name: string;
+	}): JwtToken;
 	verifyToken(token: string): JwtToken;
 }

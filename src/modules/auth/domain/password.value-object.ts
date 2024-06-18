@@ -1,5 +1,12 @@
+import { Either, ValueObject } from '@lib';
 import * as bcrypt from 'bcrypt';
-import { type DomainPrimitive, ValueObject } from '../value-object.base';
+import {
+	PasswordTooLongException,
+	PasswordTooShortException,
+	PasswordWithoutLowercaseException,
+	PasswordWithoutNumberException,
+	PasswordWithoutUppercaseException,
+} from './password.value-object.exceptions';
 
 export interface PasswordProps {
 	value: string;
@@ -9,7 +16,7 @@ export interface PasswordProps {
 export class Password extends ValueObject<PasswordProps> {
 	private static readonly SALT_ROUNDS = 10;
 
-	constructor({ value, hashed }: PasswordProps) {
+	private constructor({ value, hashed }: PasswordProps) {
 		super({ value, hashed });
 		if (!hashed) {
 			this.props.value = this.hashPassword(value);
@@ -30,21 +37,31 @@ export class Password extends ValueObject<PasswordProps> {
 		return bcrypt.hashSync(password, salt);
 	}
 
-	protected validate({ value: password }: DomainPrimitive<string>): void {
+	public static create({
+		value: password,
+	}: PasswordProps): Either<
+		| PasswordTooShortException
+		| PasswordTooLongException
+		| PasswordWithoutNumberException
+		| PasswordWithoutLowercaseException
+		| PasswordWithoutUppercaseException,
+		Password
+	> {
 		if (password.length < 8) {
-			throw new Error('Password must be at least 8 characters long.');
+			return Either.left(new PasswordTooShortException());
 		}
 		if (password.length > 50) {
-			throw new Error('Password must be at most 50 characters long');
+			return Either.left(new PasswordTooLongException());
 		}
 		if (!/[A-Z]/.test(password)) {
-			throw new Error('Password must contain at least one uppercase letter.');
+			return Either.left(new PasswordWithoutUppercaseException());
 		}
 		if (!/[a-z]/.test(password)) {
-			throw new Error('Password must contain at least one lowercase letter.');
+			return Either.left(new PasswordWithoutLowercaseException());
 		}
 		if (!/[0-9]/.test(password)) {
-			throw new Error('Password must contain at least one number.');
+			return Either.left(new PasswordWithoutNumberException());
 		}
+		return Either.right(new Password({ value: password }));
 	}
 }

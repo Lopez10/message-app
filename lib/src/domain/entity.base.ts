@@ -32,7 +32,7 @@ export abstract class Entity<T> {
 			return false;
 		}
 
-		return this._id.matches(object._id);
+		return this._id.isEqual(object._id);
 	}
 
 	get propsCopy(): Readonly<{ id: Id } & T> {
@@ -41,6 +41,10 @@ export abstract class Entity<T> {
 			...this.props,
 		};
 		return Object.freeze(propsCopy);
+	}
+
+	get id(): Id {
+		return this._id;
 	}
 
 	private validateProps(props: T): void {

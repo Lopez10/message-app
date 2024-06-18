@@ -22,6 +22,10 @@ export class Auth extends Entity<AuthProps> {
 		return this.props.refreshToken;
 	}
 
+	get password() {
+		return this.props.password;
+	}
+
 	updateAccessToken(token: JwtToken) {
 		this.props.accessToken = token;
 	}

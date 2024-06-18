@@ -1,4 +1,11 @@
-import { Password } from '@lib';
+import { Password } from '../password.value-object';
+import {
+	PasswordTooLongException,
+	PasswordTooShortException,
+	PasswordWithoutLowercaseException,
+	PasswordWithoutNumberException,
+	PasswordWithoutUppercaseException,
+} from '../password.value-object.exceptions';
 
 describe('Password value object test', () => {
 	it(`
@@ -10,7 +17,7 @@ describe('Password value object test', () => {
 		const passwordValid = '1234PasswordValid';
 
 		// WHEN
-		const newPassword = new Password({ value: passwordValid });
+		const newPassword = Password.create({ value: passwordValid }).get();
 
 		// THEN
 		expect(newPassword.compare('1234PasswordValid')).toBeTruthy();
@@ -25,12 +32,10 @@ describe('Password value object test', () => {
 		const passwordInvalid = '1234PASSWORD';
 
 		// WHEN
-		const newPassword = () => new Password({ value: passwordInvalid });
+		const newPassword = Password.create({ value: passwordInvalid }).getLeft();
 
 		// THEN
-		expect(newPassword).toThrow(
-			'Password must contain at least one lowercase letter.',
-		);
+		expect(newPassword).toBeInstanceOf(PasswordWithoutLowercaseException);
 	});
 
 	it(`
@@ -42,12 +47,10 @@ describe('Password value object test', () => {
 		const passwordInvalid = '1234password';
 
 		// WHEN
-		const newPassword = () => new Password({ value: passwordInvalid });
+		const newPassword = Password.create({ value: passwordInvalid }).getLeft();
 
 		// THEN
-		expect(newPassword).toThrow(
-			'Password must contain at least one uppercase letter.',
-		);
+		expect(newPassword).toBeInstanceOf(PasswordWithoutUppercaseException);
 	});
 
 	it(`
@@ -59,10 +62,10 @@ describe('Password value object test', () => {
 		const passwordInvalid = 'passwordPASSWORD';
 
 		// WHEN
-		const newPassword = () => new Password({ value: passwordInvalid });
+		const newPassword = Password.create({ value: passwordInvalid }).getLeft();
 
 		// THEN
-		expect(newPassword).toThrow('Password must contain at least one number.');
+		expect(newPassword).toBeInstanceOf(PasswordWithoutNumberException);
 	});
 
 	it(`
@@ -74,10 +77,10 @@ describe('Password value object test', () => {
 		const passwordInvalid = '12asV';
 
 		// WHEN
-		const newPassword = () => new Password({ value: passwordInvalid });
+		const newPassword = Password.create({ value: passwordInvalid }).getLeft();
 
 		// THEN
-		expect(newPassword).toThrow('Password must be at least 8 characters long.');
+		expect(newPassword).toBeInstanceOf(PasswordTooShortException);
 	});
 
 	it(`
@@ -89,9 +92,9 @@ describe('Password value object test', () => {
 		const passwordInvalid = '12asV'.repeat(15);
 
 		// WHEN
-		const newPassword = () => new Password({ value: passwordInvalid });
+		const newPassword = Password.create({ value: passwordInvalid }).getLeft();
 
 		// THEN
-		expect(newPassword).toThrow('Password must be at most 50 characters long');
+		expect(newPassword).toBeInstanceOf(PasswordTooLongException);
 	});
 });

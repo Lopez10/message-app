@@ -5,8 +5,12 @@ import type { JwtServicePort } from '../domain/jwt/jwt.service.port';
 export class JwtTokenService implements JwtTokenServicePort {
 	constructor(private jwtService: JwtServicePort) {}
 
-	generateToken(userId: string): JwtToken {
-		const token = this.jwtService.sign({ userId });
+	generateToken(payload: {
+		id: string;
+		email: string;
+		name: string;
+	}): JwtToken {
+		const token = this.jwtService.sign(payload);
 		return new JwtToken(token);
 	}
 
