@@ -1,9 +1,9 @@
-import { Entity, Result } from '@lib';
+import { Entity, type Id, Result } from '@lib';
 import type { JwtToken } from './jwt-token.value-object';
 
 export interface AuthProps {
-	userId: string;
-	token: JwtToken;
+	userId: Id;
+	accessToken: JwtToken;
 	refreshToken: JwtToken;
 }
 
@@ -12,12 +12,20 @@ export class Auth extends Entity<AuthProps> {
 		return this.props.userId;
 	}
 
-	get token() {
-		return this.props.token;
+	get accessToken() {
+		return this.props.accessToken;
 	}
 
 	get refreshToken() {
 		return this.props.refreshToken;
+	}
+
+	updateAccessToken(token: JwtToken) {
+		this.props.accessToken = token;
+	}
+
+	updateRefreshToken(token: JwtToken) {
+		this.props.refreshToken = token;
 	}
 
 	private constructor(props: AuthProps) {
