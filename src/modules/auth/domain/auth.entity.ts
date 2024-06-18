@@ -1,5 +1,5 @@
 import { Entity, type Id, Result } from '@lib';
-import type { JwtToken } from './jwt-token.value-object';
+import type { JwtToken } from './jwt/jwt-token.value-object';
 
 export interface AuthProps {
 	userId: Id;

@@ -1,6 +1,6 @@
-import type { JwtTokenServicePort } from '../domain/jwt-token.service.port';
-import { JwtToken } from '../domain/jwt-token.value-object';
-import type { JwtServicePort } from '../domain/jwt.service.port';
+import type { JwtTokenServicePort } from '../domain/jwt/jwt-token.service.port';
+import { JwtToken } from '../domain/jwt/jwt-token.value-object';
+import type { JwtServicePort } from '../domain/jwt/jwt.service.port';
 
 export class JwtTokenService implements JwtTokenServicePort {
 	constructor(private jwtService: JwtServicePort) {}
