@@ -1,6 +1,7 @@
-import { Entity, type Id, Result } from '@lib';
+import { Either, Entity, type Id } from '@lib';
 import type { JwtToken } from './jwt/jwt-token.value-object';
 import type { Password } from './password.value-object';
+import type { AuthEntityUnknownException } from './auth.entity.exception';
 
 export interface AuthProps {
 	userId: Id;
@@ -38,9 +39,11 @@ export class Auth extends Entity<AuthProps> {
 		super(props);
 	}
 
-	public static create(props: AuthProps): Result<Auth> {
+	public static create(
+		props: AuthProps,
+	): Either<AuthEntityUnknownException, Auth> {
 		const auth = new Auth(props);
 
-		return Result.ok(auth);
+		return Either.right(auth);
 	}
 }

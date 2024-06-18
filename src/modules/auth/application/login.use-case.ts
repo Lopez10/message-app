@@ -39,7 +39,7 @@ export class Login
 		}
 
 		const accessToken = this.jwtService.generateToken({
-			email: user.email,
+			email: user.email.value,
 			id: user.id.value,
 			name: user.name,
 		});
