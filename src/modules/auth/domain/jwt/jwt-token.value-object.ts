@@ -1,9 +1,8 @@
 import { type DomainPrimitive, ValueObject } from '@lib';
 
 export class JwtToken extends ValueObject<string> {
-	constructor(value: string) {
+	private constructor(value: string) {
 		super({ value });
-		this.validate({ value });
 		this.props.value = value;
 	}
 
@@ -11,8 +10,7 @@ export class JwtToken extends ValueObject<string> {
 		return this.props.value;
 	}
 
-	protected validate(props: DomainPrimitive<string>): void {
-		const { value } = props;
+	public static create(value: string): JwtToken {
 		if (value.length < 10) {
 			throw new Error(`Token "${value}" is too short`);
 		}
@@ -20,5 +18,6 @@ export class JwtToken extends ValueObject<string> {
 		if (value.length > 1000) {
 			throw new Error(`Token "${value}" is too long`);
 		}
+		return new JwtToken(value);
 	}
 }

@@ -13,6 +13,11 @@ export interface PasswordProps {
 	hashed?: boolean;
 }
 
+export interface PasswordPrimitives {
+	value: string;
+	hashed?: boolean;
+}
+
 export class Password extends ValueObject<PasswordProps> {
 	private static readonly SALT_ROUNDS = 10;
 
