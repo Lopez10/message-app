@@ -1,8 +1,9 @@
-import { Entity, Result, type Id } from '@lib';
+import { Either, type Email, Entity, ExceptionBase, type Id } from '@lib';
+import { UserEntityUnknownException } from './user.entity.exception';
 
 export interface UserProps {
 	name: string;
-	email: string;
+	email: Email;
 	isActive: boolean;
 }
 
@@ -23,9 +24,12 @@ export class User extends Entity<UserProps> {
 		super(props, id);
 	}
 
-	public static create(props: UserProps, id?: Id): Result<User> {
+	public static create(
+		props: UserProps,
+		id?: Id,
+	): Either<UserEntityUnknownException, User> {
 		const user = new User(props, id);
 
-		return Result.ok(user);
+		return Either.right(user);
 	}
 }
