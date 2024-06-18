@@ -1,4 +1,3 @@
-import { Email } from '@lib';
 import { User } from '@modules/user/domain/user.entity';
 
 describe('Login Use Case', () => {

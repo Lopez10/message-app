@@ -1,4 +1,4 @@
-import { Either, ValueObject } from '@lib';
+import { ValueObject, Either } from '@lib';
 import type { EmailInvalidFormatException } from './email.value-object.exception';
 
 export class Email extends ValueObject<string> {
