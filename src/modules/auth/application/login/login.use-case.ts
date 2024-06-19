@@ -21,25 +21,21 @@ export class Login
 		request: LoginDto,
 	): Promise<Either<InvalidEmailOrPasswordException, string>> {
 		const email = Email.create(request.email);
-
 		if (email.isLeft()) {
 			return Either.left(new InvalidEmailOrPasswordException());
 		}
 
 		const user = await this.userRepository.findByEmail(email.get());
-
 		if (!user) {
 			return Either.left(new InvalidEmailOrPasswordException());
 		}
 
 		const auth = await this.authRepository.findByUserId(user.id);
-
 		if (!auth) {
 			return Either.left(new InvalidEmailOrPasswordException());
 		}
 
 		const isPasswordMatch = await auth.password.compare(request.password);
-
 		if (!isPasswordMatch) {
 			return Either.left(new InvalidEmailOrPasswordException());
 		}
