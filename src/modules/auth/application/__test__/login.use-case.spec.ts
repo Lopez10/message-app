@@ -4,7 +4,7 @@ import { UserMemoryRepository } from '@modules/user/infrastructure/user.memory.r
 import { Login } from '../login/login.use-case';
 import { AuthMother } from '@modules/auth/infrastructure/__test__/auth.mother';
 import { UserMother } from '@modules/user/infrastructure/__test__/user.mother';
-import { InvalidUsernameOrPasswordException } from '../login/login.use-case.exception';
+import { InvalidEmailOrPasswordException } from '../login/login.use-case.exception';
 
 describe('Login Use Case', () => {
 	it(`
@@ -97,6 +97,6 @@ describe('Login Use Case', () => {
 
 		// THEN
 		expect(result.isLeft()).toBeTruthy();
-		expect(result.getLeft()).toBeInstanceOf(InvalidUsernameOrPasswordException);
+		expect(result.getLeft()).toBeInstanceOf(InvalidEmailOrPasswordException);
 	});
 });
