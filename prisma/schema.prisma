@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @unique
   name     String
   email    String   @unique
   isActive Boolean? @default(true)
@@ -16,8 +16,8 @@ model User {
 }
 
 model Auth {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  userId   String @unique @db.ObjectId
+  id       String @id @unique
+  userId   String @unique
   user     User   @relation(fields: [userId], references: [id])
   password String
 }

@@ -13,6 +13,8 @@ export class PrismaService
 	async onModuleInit() {
 		try {
 			await this.$connect();
+			console.log('Connected to the database');
+			console.log('DATABASE_URL:', process.env.DATABASE_URL);
 		} catch (error) {
 			console.error(
 				'Failed to connect to the database:',

@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
+    "start:local": "dotenv -e .env.local -- nest start --watch",
     "start:prod": "node dist/main",
     "start:dev": "export NODE_ENV=dev && node dist/src/main",
     "start:migrate:dev": "export NODE_ENV=dev && pnpm start:dev && prisma migrate deploy",
@@ -26,6 +27,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "5.7.1",
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "uuid": "^10.0.0"
@@ -47,6 +49,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "bcryptjs": "^2.4.3",
+    "dotenv-cli": "^7.4.2",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
