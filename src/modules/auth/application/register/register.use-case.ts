@@ -7,6 +7,8 @@ import { Email } from '@modules/user/domain/email.value-object';
 import { InvalidEmailFormatException } from '@modules/user/domain/email.value-object.exception';
 import type { UserRepositoryPort } from '@modules/user/domain/user.repository.port';
 import { UserAlreadyExistsException } from './register.use-case.exception';
+import { User } from '@modules/user/domain/user.entity';
+import { Auth } from '@modules/auth/domain/auth.entity';
 
 export type RegisterDto = {
 	email: string;
@@ -51,11 +53,30 @@ export class Register
 			return Either.left(new InvalidPasswordFormatException());
 		}
 
-		const user = await this.userRepository.findByEmail(email.get());
-		if (user) {
+		const existingUser = await this.userRepository.findByEmail(email.get());
+		if (existingUser) {
 			return Either.left(new UserAlreadyExistsException());
 		}
 
-		return;
+		const user = User.create({
+			email: email.get(),
+			name: request.name,
+		});
+
+		const auth = Auth.create({
+			userId: user.get().id,
+			password: password.get(),
+		});
+
+		await this.userRepository.insert(user.get());
+		await this.authRepository.insert(auth.get());
+
+		const accessToken = this.jwtService.generateToken({
+			email: user.get().email.value,
+			id: user.get().id.value,
+			name: user.get().name,
+		});
+
+		return Either.right(accessToken.value);
 	}
 }

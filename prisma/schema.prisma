@@ -8,18 +8,16 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  email    String  @unique
-  isActive Boolean @default(true)
+  email    String   @unique
+  isActive Boolean? @default(true)
   auth     Auth?
 }
 
 model Auth {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String @unique @db.ObjectId
-  user         User   @relation(fields: [userId], references: [id])
-  password     String
-  accessToken  String
-  refreshToken String
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String @unique @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
+  password String
 }

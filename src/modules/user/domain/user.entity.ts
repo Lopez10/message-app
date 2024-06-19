@@ -6,12 +6,12 @@ export interface UserPrimitives {
 	id: string;
 	name: string;
 	email: string;
-	isActive: boolean;
+	isActive?: boolean;
 }
 export interface UserProps {
 	name: string;
 	email: Email;
-	isActive: boolean;
+	isActive?: boolean;
 }
 
 export class User extends Entity<UserProps> {

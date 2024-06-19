@@ -3,7 +3,7 @@ import type { UserRepositoryPort } from '../domain/user.repository.port';
 import type { PrismaService } from '@prisma/prisma.service';
 import type { Id } from '@lib';
 import type { Email } from '../domain/email.value-object';
-import type { User } from '../domain/user.entity';
+import type { User, UserPrimitives } from '../domain/user.entity';
 import { UserMapper } from '../application/user.mapper';
 import type { User as UserPrisma } from '@prisma/client';
 
@@ -24,7 +24,11 @@ export class UserMongoRepository implements UserRepositoryPort {
 	findById(id: Id): Promise<User | null> {
 		throw new Error('Method not implemented.');
 	}
-	insert(user: User): Promise<void> {
-		throw new Error('Method not implemented.');
+	async insert(user: User): Promise<void> {
+		const userPrisma: UserPrimitives = UserMapper.toDto(user);
+
+		await this.prisma.user.create({
+			data: userPrisma,
+		});
 	}
 }

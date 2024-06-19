@@ -13,4 +13,13 @@ export class UserMapper {
 			new Id(userDto.id),
 		).get();
 	}
+
+	static toDto(user: User): UserPrimitives {
+		return {
+			id: user.id.value,
+			email: user.email.value,
+			isActive: user.isActive,
+			name: user.name,
+		};
+	}
 }

@@ -1,21 +1,16 @@
 import { Either, Entity, type Id } from '@lib';
-import type { JwtToken } from './jwt/jwt-token.value-object';
 import type { Password } from './password.value-object';
 import type { AuthEntityUnknownException } from './auth.entity.exception';
 
 export interface AuthProps {
 	userId: Id;
 	password: Password;
-	accessToken: JwtToken;
-	refreshToken: JwtToken;
 }
 
 export interface AuthPrimitives {
 	id?: string;
 	userId: string;
 	password: string;
-	accessToken: string;
-	refreshToken: string;
 }
 
 export class Auth extends Entity<AuthProps> {
@@ -23,24 +18,8 @@ export class Auth extends Entity<AuthProps> {
 		return this.props.userId;
 	}
 
-	get accessToken() {
-		return this.props.accessToken;
-	}
-
-	get refreshToken() {
-		return this.props.refreshToken;
-	}
-
 	get password() {
 		return this.props.password;
-	}
-
-	updateAccessToken(token: JwtToken) {
-		this.props.accessToken = token;
-	}
-
-	updateRefreshToken(token: JwtToken) {
-		this.props.refreshToken = token;
 	}
 
 	private constructor(props: AuthProps, id?: Id) {
