@@ -1,5 +1,14 @@
-import { Body, Controller, HttpException, Inject, Post } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+	Body,
+	Controller,
+	Get,
+	HttpException,
+	Inject,
+	Post,
+	Request,
+	UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { AuthMongoRepository } from '../infrastructure/auth.mongo.repository';
 import type { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
 import {
@@ -13,6 +22,7 @@ import type { JwtTokenService } from '../application/jwt-token.service';
 import { UserRepositoryPortSymbol } from '@modules/user/domain/user.repository.port';
 import { AuthRepositoryPortSymbol } from '../domain/auth.repository.port';
 import { Login } from '../application/login/login.use-case';
+import { JwtAuthGuard } from '../jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -69,5 +79,12 @@ export class AuthController {
 		}
 
 		return result.get();
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@ApiBearerAuth()
+	@Get('me')
+	async me(@Request() req): Promise<string> {
+		return req.user;
 	}
 }

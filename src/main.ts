@@ -13,7 +13,7 @@ async function bootstrap() {
 	const config = new DocumentBuilder()
 		.setTitle('Message API')
 		.setVersion('1.0')
-		.addTag('User')
+		.addBearerAuth()
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config);

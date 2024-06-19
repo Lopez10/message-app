@@ -10,6 +10,8 @@ import { JwtTokenService } from './application/jwt-token.service';
 import { UserModule } from '@modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
 	controllers: [AuthController],
@@ -23,6 +25,8 @@ import { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.r
 			useClass: JwtTokenService,
 		},
 		UserMongoRepository,
+		JwtStrategy,
+		JwtAuthGuard,
 		Login,
 		Register,
 	],
