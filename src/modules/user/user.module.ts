@@ -3,19 +3,19 @@ import { PrismaModule } from '@modules/prisma/prisma.module';
 import { UserMongoRepository } from './infrastructure/user.mongo.repository';
 import { UserRepositoryPortSymbol } from './domain/user.repository.port';
 @Module({
+	imports: [PrismaModule],
 	controllers: [],
 	providers: [
 		{
 			provide: UserRepositoryPortSymbol,
-			useValue: UserMongoRepository,
+			useClass: UserMongoRepository,
 		},
 	],
 	exports: [
 		{
 			provide: UserRepositoryPortSymbol,
-			useValue: UserMongoRepository,
+			useClass: UserMongoRepository,
 		},
 	],
-	imports: [PrismaModule],
 })
 export class UserModule {}

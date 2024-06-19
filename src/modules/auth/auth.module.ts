@@ -9,18 +9,20 @@ import { JwtTokenServiceSymbol } from './domain/jwt/jwt-token.service.port';
 import { JwtTokenService } from './application/jwt-token.service';
 import { UserModule } from '@modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
+import { UserMongoRepository } from '@modules/user/infrastructure/user.mongo.repository';
 
 @Module({
 	controllers: [AuthController],
 	providers: [
 		{
 			provide: AuthRepositoryPortSymbol,
-			useValue: AuthMongoRepository,
+			useClass: AuthMongoRepository,
 		},
 		{
 			provide: JwtTokenServiceSymbol,
-			useValue: JwtTokenService,
+			useClass: JwtTokenService,
 		},
+		UserMongoRepository,
 		Login,
 		Register,
 	],

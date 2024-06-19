@@ -61,7 +61,7 @@ export class Register
 		if (password.isLeft()) {
 			return Either.left(new InvalidPasswordFormatException());
 		}
-
+		console.log(this.userRepository);
 		const existingUser = await this.userRepository.findByEmail(email.get());
 		if (existingUser) {
 			return Either.left(new UserAlreadyExistsException());
