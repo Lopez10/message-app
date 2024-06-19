@@ -1,11 +1,11 @@
 import { ExceptionBase } from '@lib';
 
-export const EMAIL_INVALID_FORMAT = 'Invalid email format';
+export const INVALID_EMAIL_FORMAT = 'Invalid email format';
 
-export class EmailInvalidFormatException extends ExceptionBase {
+export class InvalidEmailFormatException extends ExceptionBase {
 	constructor(message = 'Invalid email format') {
 		super(message);
 	}
 
-	readonly code = EMAIL_INVALID_FORMAT;
+	readonly code = INVALID_EMAIL_FORMAT;
 }
