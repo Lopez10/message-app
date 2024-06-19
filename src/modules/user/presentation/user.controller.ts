@@ -1,8 +1,16 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserMongoRepository as UserPostgreRepository } from '../infrastructure/user.postgre.repository';
 import { UserRepositoryPortSymbol } from '../domain/user.repository.port';
-import { Controller, Get, Inject } from '@nestjs/common';
+import {
+	Controller,
+	Get,
+	Inject,
+	Patch,
+	Request,
+	UseGuards,
+} from '@nestjs/common';
 import { GetActiveUsers } from '../application/get-active-users/get-active-users.use-case';
+import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
 
 @ApiTags('user')
 @Controller('user')
@@ -28,5 +36,16 @@ export class UserController {
 		}
 
 		return result.get();
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Patch('me/status')
+	@ApiResponse({
+		status: 200,
+		description: 'User status updated',
+	})
+	async updateStatus(@Request() req) {
+		console.log(req.user.email);
+		throw new Error('Method not implemented.');
 	}
 }
