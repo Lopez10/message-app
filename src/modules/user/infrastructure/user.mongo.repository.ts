@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import type { UserRepositoryPort } from '../domain/user.repository.port';
 import type { PrismaService } from '@modules/prisma/prisma.service';
 import type { Id } from '@lib';
@@ -10,6 +10,7 @@ import type { User as UserPrisma } from '@prisma/client';
 @Injectable()
 export class UserMongoRepository implements UserRepositoryPort {
 	constructor(private readonly prisma: PrismaService) {}
+
 	async findByEmail(email: Email): Promise<User | null> {
 		const user: UserPrisma = await this.prisma.user.findUnique({
 			where: {

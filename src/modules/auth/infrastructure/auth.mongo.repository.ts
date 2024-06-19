@@ -9,6 +9,7 @@ import { AuthMapper } from '../application/auth.mapper';
 @Injectable()
 export class AuthMongoRepository implements AuthRepositoryPort {
 	constructor(private readonly prisma: PrismaService) {}
+
 	insert(auth: Auth): Promise<void> {
 		throw new Error('Method not implemented.');
 	}

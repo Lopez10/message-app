@@ -8,23 +8,29 @@ import { Register } from './application/register/register.use-case';
 import { JwtTokenServiceSymbol } from './domain/jwt/jwt-token.service.port';
 import { JwtTokenService } from './application/jwt-token.service';
 import { UserModule } from '@modules/user/user.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
 	controllers: [AuthController],
 	providers: [
-		AuthMongoRepository,
 		{
 			provide: AuthRepositoryPortSymbol,
-			useClass: AuthMongoRepository,
+			useValue: AuthMongoRepository,
 		},
-		JwtTokenService,
 		{
 			provide: JwtTokenServiceSymbol,
-			useClass: JwtTokenService,
+			useValue: JwtTokenService,
 		},
 		Login,
 		Register,
 	],
-	imports: [PrismaModule, UserModule],
+	imports: [
+		PrismaModule,
+		UserModule,
+		JwtModule.register({
+			secret: process.env.JWT_SECRET,
+			signOptions: { expiresIn: '60m' },
+		}),
+	],
 })
 export class AuthModule {}

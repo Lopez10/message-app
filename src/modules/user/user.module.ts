@@ -7,16 +7,14 @@ import { UserRepositoryPortSymbol } from './domain/user.repository.port';
 	providers: [
 		{
 			provide: UserRepositoryPortSymbol,
-			useClass: UserMongoRepository,
+			useValue: UserMongoRepository,
 		},
-		UserMongoRepository,
 	],
 	exports: [
 		{
 			provide: UserRepositoryPortSymbol,
-			useClass: UserMongoRepository,
+			useValue: UserMongoRepository,
 		},
-		UserMongoRepository,
 	],
 	imports: [PrismaModule],
 })
