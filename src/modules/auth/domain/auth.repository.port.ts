@@ -6,3 +6,5 @@ export interface AuthRepositoryPort {
 	findByUserId(userId: Id): Promise<Auth | null>;
 	update(auth: Auth): Promise<void>;
 }
+
+export const AuthRepository = Symbol('AuthRepositoryPort');

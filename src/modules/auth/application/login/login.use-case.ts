@@ -1,17 +1,31 @@
 import { Either, type UseCase } from '@lib';
-import type { AuthRepositoryPort } from '../../domain/auth.repository.port';
-import type { UserRepositoryPort } from '@modules/user/domain/user.repository.port';
-import type { JwtTokenServicePort } from '../../domain/jwt/jwt-token.service.port';
+import {
+	AuthRepository,
+	type AuthRepositoryPort,
+} from '../../domain/auth.repository.port';
+import {
+	UserRepository,
+	type UserRepositoryPort,
+} from '@modules/user/domain/user.repository.port';
+import {
+	JwtTokenService,
+	type JwtTokenServicePort,
+} from '../../domain/jwt/jwt-token.service.port';
 import { Email } from '@modules/user/domain/email.value-object';
 import { InvalidEmailOrPasswordException } from './login.use-case.exception';
 import type { LoginDto } from '../auth.mapper';
+import { Inject, Injectable } from '@nestjs/common';
 
+@Injectable()
 export class Login
 	implements UseCase<LoginDto, Either<InvalidEmailOrPasswordException, string>>
 {
 	constructor(
+		@Inject(AuthRepository)
 		private readonly authRepository: AuthRepositoryPort,
+		@Inject(UserRepository)
 		private readonly userRepository: UserRepositoryPort,
+		@Inject(JwtTokenService)
 		private readonly jwtService: JwtTokenServicePort,
 	) {}
 	async run(

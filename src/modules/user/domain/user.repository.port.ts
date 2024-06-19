@@ -7,3 +7,5 @@ export interface UserRepositoryPort {
 	findById(id: Id): Promise<User | null>;
 	insert(user: User): Promise<void>;
 }
+
+export const UserRepository = Symbol('UserRepositoryPort');
