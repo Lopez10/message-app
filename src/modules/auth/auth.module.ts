@@ -9,7 +9,7 @@ import { JwtTokenServiceSymbol } from './domain/jwt/jwt-token.service.port';
 import { JwtTokenService } from './application/jwt-token.service';
 import { UserModule } from '@modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
-import { UserMongoRepository } from '@modules/user/infrastructure/user.mongo.repository';
+import { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
 
 @Module({
 	controllers: [AuthController],

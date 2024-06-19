@@ -22,14 +22,26 @@ export class UserMongoRepository implements UserRepositoryPort {
 
 		return UserMapper.toDomain(user);
 	}
+
 	findById(id: Id): Promise<User | null> {
 		throw new Error('Method not implemented.');
 	}
+
 	async insert(user: User): Promise<void> {
 		const userPrisma: UserPrimitives = UserMapper.toDto(user);
 
 		await this.prisma.user.create({
 			data: userPrisma,
 		});
+	}
+
+	async getActiveUsers(): Promise<User[]> {
+		const users: UserPrisma[] = await this.prisma.user.findMany({
+			where: {
+				isActive: true,
+			},
+		});
+
+		return users.map(UserMapper.toDomain);
 	}
 }

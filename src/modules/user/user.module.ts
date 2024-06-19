@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from '@modules/prisma/prisma.module';
-import { UserMongoRepository } from './infrastructure/user.mongo.repository';
+import { UserMongoRepository } from './infrastructure/user.postgre.repository';
 import { UserRepositoryPortSymbol } from './domain/user.repository.port';
 @Module({
 	imports: [PrismaModule],

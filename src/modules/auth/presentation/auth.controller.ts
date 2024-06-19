@@ -1,7 +1,7 @@
 import { Body, Controller, HttpException, Inject, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { AuthMongoRepository } from '../infrastructure/auth.mongo.repository';
-import type { UserMongoRepository } from '@modules/user/infrastructure/user.mongo.repository';
+import type { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
 import {
 	LoginDto,
 	RegisterDto,
