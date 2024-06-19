@@ -1,10 +1,10 @@
 import { JwtTokenServiceMock } from '@modules/auth/domain/__test__/jwt-token.service.mock';
 import { AuthMemoryRepository } from '@modules/auth/infrastructure/auth.memory.repository';
 import { UserMemoryRepository } from '@modules/user/infrastructure/user.memory.repository';
-import { Login } from '../login.use-case';
+import { Login } from '../login/login.use-case';
 import { AuthMother } from '@modules/auth/infrastructure/__test__/auth.mother';
 import { UserMother } from '@modules/user/infrastructure/__test__/user.mother';
-import { InvalidUsernameOrPasswordException } from '@lib';
+import { InvalidUsernameOrPasswordException } from '../login/login.use-case.exception';
 
 describe('Login Use Case', () => {
 	it(`

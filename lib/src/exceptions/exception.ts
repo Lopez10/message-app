@@ -6,7 +6,6 @@ import {
 	INTERNAL_SERVER_ERROR,
 	INVALID_ROLE,
 	INVALID_TOKEN,
-	INVALID_USERNAME_OR_PASSWORD,
 	NOT_FOUND,
 } from '.';
 import { ExceptionBase } from './exception.base';
@@ -55,16 +54,6 @@ export class InvalidTokenException extends ExceptionBase {
 	}
 
 	readonly code = INVALID_TOKEN;
-}
-
-export class InvalidUsernameOrPasswordException extends ExceptionBase {
-	static readonly message = 'Invalid username or password';
-
-	constructor(message = InvalidUsernameOrPasswordException.message) {
-		super(message);
-	}
-
-	readonly code = INVALID_USERNAME_OR_PASSWORD;
 }
 
 export class InvalidRoleException extends ExceptionBase {
