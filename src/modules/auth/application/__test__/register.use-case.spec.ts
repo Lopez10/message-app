@@ -3,6 +3,7 @@ import { AuthMemoryRepository } from '@modules/auth/infrastructure/auth.memory.r
 import { UserMemoryRepository } from '@modules/user/infrastructure/user.memory.repository';
 import { Register } from '../register/register.use-case';
 import { Email } from '@modules/user/domain/email.value-object';
+import { InvalidEmailFormatException } from '@modules/user/domain/email.value-object.exception';
 
 describe('Register Use Case', () => {
 	it(`
@@ -51,7 +52,33 @@ describe('Register Use Case', () => {
         GIVEN an invalid email
         WHEN I call the register use case
         THEN I should receive an error
-    `, async () => {});
+    `, async () => {
+		const password = '12345TestValid';
+		const email = 'invalid-email';
+		const authRepository = new AuthMemoryRepository();
+		const userRepository = new UserMemoryRepository();
+		const jwtService = new JwtTokenServiceMock();
+
+		const registerUseCase = new Register(
+			authRepository,
+			userRepository,
+			jwtService,
+		);
+
+		// GIVEN
+		const registerDto = {
+			email,
+			password,
+			name: 'Test Name',
+		};
+
+		// WHEN
+		const result = await registerUseCase.run(registerDto);
+
+		// THEN
+		expect(result.isLeft()).toBeTruthy();
+		expect(result.getLeft()).toBeInstanceOf(InvalidEmailFormatException);
+	});
 
 	it(`
         GIVEN an invalid password

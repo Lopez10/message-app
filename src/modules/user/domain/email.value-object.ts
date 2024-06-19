@@ -1,5 +1,5 @@
 import { ValueObject, Either } from '@lib';
-import type { InvalidEmailFormatException } from './email.value-object.exception';
+import { InvalidEmailFormatException } from './email.value-object.exception';
 
 export class Email extends ValueObject<string> {
 	private constructor(value: string) {
@@ -26,6 +26,11 @@ export class Email extends ValueObject<string> {
 	public static create(
 		email: string,
 	): Either<InvalidEmailFormatException, Email> {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		const isEmailValid = emailRegex.test(email);
+		if (!isEmailValid) {
+			return Either.left(new InvalidEmailFormatException());
+		}
 		return Either.right(new Email(email));
 	}
 }
