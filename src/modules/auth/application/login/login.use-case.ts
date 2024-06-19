@@ -4,11 +4,8 @@ import type { UserRepositoryPort } from '@modules/user/domain/user.repository.po
 import type { JwtTokenServicePort } from '../../domain/jwt/jwt-token.service.port';
 import { Email } from '@modules/user/domain/email.value-object';
 import { InvalidEmailOrPasswordException } from './login.use-case.exception';
+import type { LoginDto } from '../auth.mapper';
 
-export type LoginDto = {
-	email: string;
-	password: string;
-};
 export class Login
 	implements UseCase<LoginDto, Either<InvalidEmailOrPasswordException, string>>
 {

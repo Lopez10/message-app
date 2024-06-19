@@ -1,6 +1,7 @@
 import { Id } from '@lib';
 import { Auth, type AuthPrimitives } from '../domain/auth.entity';
 import { Password } from '../domain/password.value-object';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AuthMapper {
 	static toDomain(authDto: AuthPrimitives): Auth {
@@ -20,4 +21,46 @@ export class AuthMapper {
 			password: auth.password.value,
 		};
 	}
+}
+
+export class RegisterDto {
+	@ApiProperty({
+		example: 'test@test.com',
+		description: 'The email of the user',
+	})
+	email: string;
+
+	@ApiProperty({
+		example: '12345TestValid',
+		description: 'The password of the user',
+	})
+	password: string;
+
+	@ApiProperty({
+		example: 'Test Name',
+		description: 'The name of the user',
+	})
+	name: string;
+}
+
+export class LoginDto {
+	@ApiProperty({
+		example: 'test@test.com',
+		description: 'The email of the user',
+	})
+	email: string;
+
+	@ApiProperty({
+		example: '12345TestValid',
+		description: 'The password of the user',
+	})
+	password: string;
+}
+
+export class TokenResponse {
+	@ApiProperty({
+		example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+		description: 'The access token of the user',
+	})
+	accessToken: string;
 }

@@ -9,12 +9,7 @@ import type { UserRepositoryPort } from '@modules/user/domain/user.repository.po
 import { UserAlreadyExistsException } from './register.use-case.exception';
 import { User } from '@modules/user/domain/user.entity';
 import { Auth } from '@modules/auth/domain/auth.entity';
-
-export type RegisterDto = {
-	email: string;
-	password: string;
-	name: string;
-};
+import type { RegisterDto, TokenResponse } from '../auth.mapper';
 
 export class Register
 	implements
@@ -24,7 +19,7 @@ export class Register
 				| InvalidEmailFormatException
 				| InvalidPasswordFormatException
 				| UserAlreadyExistsException,
-				string
+				TokenResponse
 			>
 		>
 {
@@ -40,7 +35,7 @@ export class Register
 			| InvalidEmailFormatException
 			| InvalidPasswordFormatException
 			| UserAlreadyExistsException,
-			string
+			TokenResponse
 		>
 	> {
 		const email = Email.create(request.email);
@@ -77,6 +72,10 @@ export class Register
 			name: user.get().name,
 		});
 
-		return Either.right(accessToken.value);
+		const response: TokenResponse = {
+			accessToken: accessToken.value,
+		};
+
+		return Either.right(response);
 	}
 }
