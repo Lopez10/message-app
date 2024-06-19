@@ -12,6 +12,7 @@ import {
 import { GetActiveUsers } from '../application/get-active-users/get-active-users.use-case';
 import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
 import { UpdateUserStatus } from '../application/update-user-status/update-user-status.use-case';
+import { GetUserByEmail } from '../application/get-user-by-email/get-user-by-email.use-case';
 
 @ApiTags('user')
 @Controller('user')
@@ -50,5 +51,25 @@ export class UserController {
 		const updateStatus = new UpdateUserStatus(this.userRepository);
 
 		await updateStatus.run(req.user.email);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('me')
+	@ApiBearerAuth()
+	@ApiResponse({
+		status: 200,
+		description: 'User details',
+	})
+	async me(@Request() req) {
+		const getUser = new GetUserByEmail(this.userRepository);
+
+		const result = await getUser.run(req.user.email);
+
+		if (result.isLeft()) {
+			const error = result.getLeft();
+			throw error;
+		}
+
+		return result.get();
 	}
 }
