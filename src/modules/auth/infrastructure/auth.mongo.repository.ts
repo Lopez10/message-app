@@ -10,8 +10,12 @@ import { AuthMapper } from '../application/auth.mapper';
 export class AuthMongoRepository implements AuthRepositoryPort {
 	constructor(private readonly prisma: PrismaService) {}
 
-	insert(auth: Auth): Promise<void> {
-		throw new Error('Method not implemented.');
+	async insert(auth: Auth): Promise<void> {
+		const authPrisma: AuthPrisma = AuthMapper.toDto(auth);
+
+		await this.prisma.auth.create({
+			data: authPrisma,
+		});
 	}
 
 	async findByUserId(userId: Id): Promise<Auth | null> {
@@ -21,7 +25,7 @@ export class AuthMongoRepository implements AuthRepositoryPort {
 
 		if (!auth) return null;
 
-		AuthMapper.toDomain(auth);
+		return AuthMapper.persistanceToDomain(auth);
 	}
 
 	update(auth: Auth): Promise<void> {

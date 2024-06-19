@@ -6,6 +6,7 @@ export class AuthMother {
 		const authDto: AuthPrimitives = {
 			userId: '38010560-d08f-42d8-a3e5-72d55aa51e07',
 			password: '1234Password',
+			id: '38010560-d08f-42d8-a3e5-72d55aa51e07',
 			...params,
 		};
 

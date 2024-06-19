@@ -13,12 +13,20 @@ import {
 } from '../../domain/jwt/jwt-token.service.port';
 import { Email } from '@modules/user/domain/email.value-object';
 import { InvalidEmailOrPasswordException } from './login.use-case.exception';
-import type { LoginDto } from '../auth.mapper';
+import type { LoginDto, TokenResponse } from '../auth.mapper';
 import { Inject, Injectable } from '@nestjs/common';
+import { InvalidEmailFormatException } from '@modules/user/domain/email.value-object.exception';
 
 @Injectable()
 export class Login
-	implements UseCase<LoginDto, Either<InvalidEmailOrPasswordException, string>>
+	implements
+		UseCase<
+			LoginDto,
+			Either<
+				InvalidEmailOrPasswordException | InvalidEmailFormatException,
+				TokenResponse
+			>
+		>
 {
 	constructor(
 		@Inject(AuthRepositoryPortSymbol)
@@ -30,10 +38,15 @@ export class Login
 	) {}
 	async run(
 		request: LoginDto,
-	): Promise<Either<InvalidEmailOrPasswordException, string>> {
+	): Promise<
+		Either<
+			InvalidEmailOrPasswordException | InvalidEmailFormatException,
+			TokenResponse
+		>
+	> {
 		const email = Email.create(request.email);
 		if (email.isLeft()) {
-			return Either.left(new InvalidEmailOrPasswordException());
+			return Either.left(new InvalidEmailFormatException());
 		}
 
 		const user = await this.userRepository.findByEmail(email.get());
@@ -57,6 +70,10 @@ export class Login
 			name: user.name,
 		});
 
-		return Either.right(accessToken.value);
+		const response: TokenResponse = {
+			accessToken: accessToken.value,
+		};
+
+		return Either.right(response);
 	}
 }

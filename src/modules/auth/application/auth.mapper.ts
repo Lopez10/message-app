@@ -14,6 +14,16 @@ export class AuthMapper {
 		).get();
 	}
 
+	static persistanceToDomain(authDto: AuthPrimitives): Auth {
+		return Auth.create(
+			{
+				userId: new Id(authDto.userId),
+				password: Password.rehydrate(authDto.password),
+			},
+			new Id(authDto.id),
+		).get();
+	}
+
 	static toDto(auth: Auth): AuthPrimitives {
 		return {
 			id: auth.id.value,

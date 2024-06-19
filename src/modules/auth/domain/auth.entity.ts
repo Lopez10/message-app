@@ -8,7 +8,7 @@ export interface AuthProps {
 }
 
 export interface AuthPrimitives {
-	id?: string;
+	id: string;
 	userId: string;
 	password: string;
 }
