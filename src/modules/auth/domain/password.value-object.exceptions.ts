@@ -1,10 +1,19 @@
 import { ExceptionBase } from '@lib';
 
+export const INVALID_PASSWORD_FORMAT = 'AUTH.INVALID_PASSWORD_FORMAT';
 export const PASSWORD_TOO_SHORT = 'AUTH.PASSWORD_TOO_SHORT';
 export const PASSWORD_TOO_LONG = 'AUTH.PASSWORD_TOO_LONG';
 export const PASSWORD_WITHOUT_NUMBER = 'AUTH.PASSWORD_WITHOUT_NUMBER';
 export const PASSWORD_WITHOUT_UPPERCASE = 'AUTH.PASSWORD_WITHOUT_UPPERCASE';
 export const PASSWORD_WITHOUT_LOWERCASE = 'AUTH.PASSWORD_WITHOUT_LOWERCASE';
+
+export class InvalidPasswordFormatException extends ExceptionBase {
+	constructor(message = 'Invalid password') {
+		super(message);
+	}
+
+	readonly code = INVALID_PASSWORD_FORMAT;
+}
 
 export class PasswordTooShortException extends ExceptionBase {
 	constructor(message = 'Password is too short') {

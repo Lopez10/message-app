@@ -1,5 +1,5 @@
 import { ValueObject, Either } from '@lib';
-import type { EmailInvalidFormatException } from './email.value-object.exception';
+import type { InvalidEmailFormatException } from './email.value-object.exception';
 
 export class Email extends ValueObject<string> {
 	private constructor(value: string) {
@@ -25,7 +25,7 @@ export class Email extends ValueObject<string> {
 
 	public static create(
 		email: string,
-	): Either<EmailInvalidFormatException, Email> {
+	): Either<InvalidEmailFormatException, Email> {
 		return Either.right(new Email(email));
 	}
 }
