@@ -4,8 +4,22 @@ import { UserMemoryRepository } from '@modules/user/infrastructure/user.memory.r
 import { Register } from '../register/register.use-case';
 import { Email } from '@modules/user/domain/email.value-object';
 import { InvalidEmailFormatException } from '@modules/user/domain/email.value-object.exception';
+import { InvalidPasswordFormatException } from '@modules/auth/domain/password.value-object.exceptions';
+import { AuthMother } from '@modules/auth/infrastructure/__test__/auth.mother';
+import { UserMother } from '@modules/user/infrastructure/__test__/user.mother';
+import { UserAlreadyExistsException } from '../register/register.use-case.exception';
 
 describe('Register Use Case', () => {
+	let authRepository: AuthMemoryRepository;
+	let userRepository: UserMemoryRepository;
+	let jwtService: JwtTokenServiceMock;
+
+	beforeEach(() => {
+		authRepository = new AuthMemoryRepository();
+		userRepository = new UserMemoryRepository();
+		jwtService = new JwtTokenServiceMock();
+	});
+
 	it(`
         GIVEN a valid email, password and name
         WHEN I call the register use case
@@ -14,9 +28,6 @@ describe('Register Use Case', () => {
     `, async () => {
 		const password = '12345TestValid';
 		const email = 'test@valid.com';
-		const authRepository = new AuthMemoryRepository();
-		const userRepository = new UserMemoryRepository();
-		const jwtService = new JwtTokenServiceMock();
 
 		const registerUseCase = new Register(
 			authRepository,
@@ -55,9 +66,6 @@ describe('Register Use Case', () => {
     `, async () => {
 		const password = '12345TestValid';
 		const email = 'invalid-email';
-		const authRepository = new AuthMemoryRepository();
-		const userRepository = new UserMemoryRepository();
-		const jwtService = new JwtTokenServiceMock();
 
 		const registerUseCase = new Register(
 			authRepository,
@@ -84,5 +92,60 @@ describe('Register Use Case', () => {
         GIVEN an invalid password
         WHEN I call the register use case
         THEN I should receive an error
-    `, async () => {});
+    `, async () => {
+		const password = '12345';
+		const email = 'test@valid.com';
+
+		const registerUseCase = new Register(
+			authRepository,
+			userRepository,
+			jwtService,
+		);
+
+		// GIVEN
+		const registerDto = {
+			email,
+			password,
+			name: 'Test Name',
+		};
+
+		// WHEN
+		const result = await registerUseCase.run(registerDto);
+
+		// THEN
+		expect(result.isLeft()).toBeTruthy();
+		expect(result.getLeft()).toBeInstanceOf(InvalidPasswordFormatException);
+	});
+
+	it(`
+		GIVEN an email that already exists
+		WHEN I call the register use case
+		THEN I should receive an error
+	`, async () => {
+		const password = '12345TestValid';
+		const email = 'test@valid.com';
+
+		const registerUseCase = new Register(
+			authRepository,
+			userRepository,
+			jwtService,
+		);
+
+		await authRepository.insert(AuthMother.create({}));
+		await userRepository.insert(UserMother.create({ email }));
+
+		// GIVEN
+		const registerDto = {
+			email,
+			password,
+			name: 'Test Name',
+		};
+
+		// WHEN
+		const result = await registerUseCase.run(registerDto);
+
+		// THEN
+		expect(result.isLeft()).toBeTruthy();
+		expect(result.getLeft()).toBeInstanceOf(UserAlreadyExistsException);
+	});
 });
