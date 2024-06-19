@@ -1,21 +1,23 @@
 import { Either, type UseCase } from '@lib';
-import {
-	AuthRepositoryPortSymbol,
-	type AuthRepositoryPort,
-} from '../../domain/auth.repository.port';
+
 import {
 	UserRepositoryPortSymbol,
 	type UserRepositoryPort,
 } from '@modules/user/domain/user.repository.port';
-import {
-	JwtTokenServiceSymbol,
-	type JwtTokenServicePort,
-} from '../../domain/jwt/jwt-token.service.port';
-import { Email } from '@modules/user/domain/email.value-object';
+
 import { InvalidEmailOrPasswordException } from './login.use-case.exception';
-import type { LoginDto, TokenResponse } from '../auth.mapper';
 import { Inject, Injectable } from '@nestjs/common';
 import { InvalidEmailFormatException } from '@modules/user/domain/email.value-object.exception';
+import {
+	AuthRepositoryPortSymbol,
+	AuthRepositoryPort,
+} from '@modules/auth/domain/auth.repository.port';
+import {
+	JwtTokenServiceSymbol,
+	JwtTokenServicePort,
+} from '@modules/auth/domain/jwt/jwt-token.service.port';
+import { Email } from '@modules/user/domain/email.value-object';
+import { LoginDto, TokenResponse } from '@modules/auth/application/auth.mapper';
 
 @Injectable()
 export class Login

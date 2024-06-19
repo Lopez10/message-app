@@ -1,6 +1,6 @@
 import { Id } from '@lib';
-import { Auth, type AuthPrimitives } from '../domain/auth.entity';
-import { Password } from '../domain/password.value-object';
+import { AuthPrimitives, Auth } from '@modules/auth/domain/auth.entity';
+import { Password } from '@modules/auth/domain/password.value-object';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AuthMapper {

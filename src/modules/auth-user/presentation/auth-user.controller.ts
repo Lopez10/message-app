@@ -1,32 +1,22 @@
 import {
-	Body,
-	Controller,
-	Get,
-	HttpException,
-	Inject,
-	Post,
-	Request,
-	UseGuards,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import type { AuthMongoRepository } from '../infrastructure/auth.mongo.repository';
-import type { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
-import {
-	LoginDto,
-	RegisterDto,
 	TokenResponse,
-} from '../application/auth.mapper';
-import { Register } from '../application/register/register.use-case';
-import { JwtTokenServiceSymbol } from '../domain/jwt/jwt-token.service.port';
-import type { JwtTokenService } from '../application/jwt-token.service';
+	RegisterDto,
+	LoginDto,
+} from '@modules/auth/application/auth.mapper';
+import { JwtTokenService } from '@modules/auth/application/jwt-token.service';
+import { AuthRepositoryPortSymbol } from '@modules/auth/domain/auth.repository.port';
+import { JwtTokenServiceSymbol } from '@modules/auth/domain/jwt/jwt-token.service.port';
+import { AuthMongoRepository } from '@modules/auth/infrastructure/auth.mongo.repository';
 import { UserRepositoryPortSymbol } from '@modules/user/domain/user.repository.port';
-import { AuthRepositoryPortSymbol } from '../domain/auth.repository.port';
+import { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
+import { Controller, Inject, Post, Body, HttpException } from '@nestjs/common';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { Login } from '../application/login/login.use-case';
-import { JwtAuthGuard } from '../jwt-auth.guard';
+import { Register } from '../application/register/register.use-case';
 
 @ApiTags('auth')
 @Controller('auth')
-export class AuthController {
+export class AuthUserController {
 	constructor(
 		@Inject(AuthRepositoryPortSymbol)
 		private readonly authRepository: AuthMongoRepository,
@@ -79,12 +69,5 @@ export class AuthController {
 		}
 
 		return result.get();
-	}
-
-	@UseGuards(JwtAuthGuard)
-	@ApiBearerAuth()
-	@Get('me')
-	async me(@Request() req): Promise<string> {
-		return req.user;
 	}
 }

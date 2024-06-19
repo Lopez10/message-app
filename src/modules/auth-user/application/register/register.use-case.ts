@@ -18,8 +18,11 @@ import {
 import { UserAlreadyExistsException } from './register.use-case.exception';
 import { User } from '@modules/user/domain/user.entity';
 import { Auth } from '@modules/auth/domain/auth.entity';
-import type { RegisterDto, TokenResponse } from '../auth.mapper';
 import { Inject, Injectable } from '@nestjs/common';
+import {
+	RegisterDto,
+	TokenResponse,
+} from '@modules/auth/application/auth.mapper';
 
 @Injectable()
 export class Register
