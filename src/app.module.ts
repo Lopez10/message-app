@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from '@modules/auth/auth.module';
 import { MessageModule } from '@modules/message/message.module';
 import { NotificationModule } from '@modules/notification/notification.module';
+import { AuthUserModule } from '@modules/auth-user/auth-user.module';
 
 @Module({
 	imports: [
@@ -13,6 +14,7 @@ import { NotificationModule } from '@modules/notification/notification.module';
 		}),
 		UserModule,
 		AuthModule,
+		AuthUserModule,
 		MessageModule,
 		NotificationModule,
 	],

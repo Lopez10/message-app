@@ -29,5 +29,17 @@ import { JwtStrategy } from './jwt.strategy';
 			signOptions: { expiresIn: '60m' },
 		}),
 	],
+	exports: [
+		JwtAuthGuard,
+		JwtModule,
+		{
+			provide: AuthRepositoryPortSymbol,
+			useClass: AuthMongoRepository,
+		},
+		{
+			provide: JwtTokenServiceSymbol,
+			useClass: JwtTokenService,
+		},
+	],
 })
 export class AuthModule {}

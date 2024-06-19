@@ -1,18 +1,28 @@
-import {
-	TokenResponse,
-	RegisterDto,
-	LoginDto,
-} from '@modules/auth/application/auth.mapper';
 import { JwtTokenService } from '@modules/auth/application/jwt-token.service';
 import { AuthRepositoryPortSymbol } from '@modules/auth/domain/auth.repository.port';
 import { JwtTokenServiceSymbol } from '@modules/auth/domain/jwt/jwt-token.service.port';
 import { AuthMongoRepository } from '@modules/auth/infrastructure/auth.mongo.repository';
 import { UserRepositoryPortSymbol } from '@modules/user/domain/user.repository.port';
 import { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
-import { Controller, Inject, Post, Body, HttpException } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import {
+	Controller,
+	Inject,
+	Post,
+	Body,
+	HttpException,
+	UseGuards,
+	Get,
+	Request,
+} from '@nestjs/common';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Login } from '../application/login/login.use-case';
 import { Register } from '../application/register/register.use-case';
+import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
+import {
+	LoginDto,
+	RegisterDto,
+	TokenResponse,
+} from '@modules/auth/application/auth.mapper';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -69,5 +79,12 @@ export class AuthUserController {
 		}
 
 		return result.get();
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@ApiBearerAuth()
+	@Get('me')
+	async me(@Request() req): Promise<string> {
+		return req.user;
 	}
 }
