@@ -8,4 +8,4 @@ export interface UserRepositoryPort {
 	insert(user: User): Promise<void>;
 }
 
-export const UserRepository = Symbol('UserRepositoryPort');
+export const UserRepositoryPortSymbol = Symbol('UserRepositoryPort');

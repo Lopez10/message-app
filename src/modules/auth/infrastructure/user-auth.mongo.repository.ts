@@ -1,6 +1,6 @@
 import type { User } from '@modules/user/domain/user.entity';
 import { Injectable } from '@nestjs/common';
-import type { PrismaService } from '@prisma/prisma.service';
+import type { PrismaService } from '@modules/prisma/prisma.service';
 import type { Auth } from '../domain/auth.entity';
 import { UserMapper } from '@modules/user/application/user.mapper';
 import { AuthMapper } from '../application/auth.mapper';

@@ -7,4 +7,4 @@ export interface AuthRepositoryPort {
 	update(auth: Auth): Promise<void>;
 }
 
-export const AuthRepository = Symbol('AuthRepositoryPort');
+export const AuthRepositoryPortSymbol = Symbol('AuthRepositoryPort');

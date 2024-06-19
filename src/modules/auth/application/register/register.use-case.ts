@@ -1,15 +1,18 @@
 import { Either, type UseCase } from '@lib';
 import {
-	AuthRepository,
+	AuthRepositoryPortSymbol,
 	type AuthRepositoryPort,
 } from '@modules/auth/domain/auth.repository.port';
-import type { JwtTokenServicePort } from '@modules/auth/domain/jwt/jwt-token.service.port';
+import {
+	JwtTokenServiceSymbol,
+	type JwtTokenServicePort,
+} from '@modules/auth/domain/jwt/jwt-token.service.port';
 import { Password } from '@modules/auth/domain/password.value-object';
 import { InvalidPasswordFormatException } from '@modules/auth/domain/password.value-object.exceptions';
 import { Email } from '@modules/user/domain/email.value-object';
 import { InvalidEmailFormatException } from '@modules/user/domain/email.value-object.exception';
 import {
-	UserRepository,
+	UserRepositoryPortSymbol,
 	type UserRepositoryPort,
 } from '@modules/user/domain/user.repository.port';
 import { UserAlreadyExistsException } from './register.use-case.exception';
@@ -17,7 +20,6 @@ import { User } from '@modules/user/domain/user.entity';
 import { Auth } from '@modules/auth/domain/auth.entity';
 import type { RegisterDto, TokenResponse } from '../auth.mapper';
 import { Inject, Injectable } from '@nestjs/common';
-import { JwtTokenService } from '../jwt-token.service';
 
 @Injectable()
 export class Register
@@ -33,11 +35,11 @@ export class Register
 		>
 {
 	constructor(
-		@Inject(AuthRepository)
+		@Inject(AuthRepositoryPortSymbol)
 		private readonly authRepository: AuthRepositoryPort,
-		@Inject(UserRepository)
+		@Inject(UserRepositoryPortSymbol)
 		private readonly userRepository: UserRepositoryPort,
-		@Inject(JwtTokenService)
+		@Inject(JwtTokenServiceSymbol)
 		private readonly jwtService: JwtTokenServicePort,
 	) {}
 	async run(

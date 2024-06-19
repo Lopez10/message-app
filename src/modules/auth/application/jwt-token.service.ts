@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import type { JwtTokenServicePort } from '../domain/jwt/jwt-token.service.port';
 import { JwtToken } from '../domain/jwt/jwt-token.value-object';
 import type { JwtService } from '@nestjs/jwt';
 
+@Injectable()
 export class JwtTokenService implements JwtTokenServicePort {
 	constructor(private jwtService: JwtService) {}
 

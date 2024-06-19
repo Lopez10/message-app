@@ -13,4 +13,4 @@ export interface JwtTokenServicePort {
 	verifyToken(token: string): JwtToken;
 }
 
-export const JwtTokenService = Symbol('JwtTokenServicePort');
+export const JwtTokenServiceSymbol = Symbol('JwtTokenServicePort');

@@ -1,14 +1,14 @@
 import { Either, type UseCase } from '@lib';
 import {
-	AuthRepository,
+	AuthRepositoryPortSymbol,
 	type AuthRepositoryPort,
 } from '../../domain/auth.repository.port';
 import {
-	UserRepository,
+	UserRepositoryPortSymbol,
 	type UserRepositoryPort,
 } from '@modules/user/domain/user.repository.port';
 import {
-	JwtTokenService,
+	JwtTokenServiceSymbol,
 	type JwtTokenServicePort,
 } from '../../domain/jwt/jwt-token.service.port';
 import { Email } from '@modules/user/domain/email.value-object';
@@ -21,11 +21,11 @@ export class Login
 	implements UseCase<LoginDto, Either<InvalidEmailOrPasswordException, string>>
 {
 	constructor(
-		@Inject(AuthRepository)
+		@Inject(AuthRepositoryPortSymbol)
 		private readonly authRepository: AuthRepositoryPort,
-		@Inject(UserRepository)
+		@Inject(UserRepositoryPortSymbol)
 		private readonly userRepository: UserRepositoryPort,
-		@Inject(JwtTokenService)
+		@Inject(JwtTokenServiceSymbol)
 		private readonly jwtService: JwtTokenServicePort,
 	) {}
 	async run(

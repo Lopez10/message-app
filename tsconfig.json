@@ -31,10 +31,10 @@
         "./src/modules/*"
       ],
       "@prisma":[
-        "./src/prisma"
+        "src/modules/prisma"
       ],
       "@prisma/*":[
-        "./src/prisma/*"
+        "src/modules/prisma/*"
       ]
     }
   }

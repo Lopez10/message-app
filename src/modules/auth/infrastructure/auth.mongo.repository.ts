@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import type { AuthRepositoryPort } from '../domain/auth.repository.port';
 import type { Id } from '@lib';
 import type { Auth, AuthPrimitives } from '../domain/auth.entity';
-import type { PrismaService } from '@prisma/prisma.service';
+import type { PrismaService } from '@modules/prisma/prisma.service';
 import type { Auth as AuthPrisma } from '@prisma/client';
 import { AuthMapper } from '../application/auth.mapper';
 
