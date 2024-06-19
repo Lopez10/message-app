@@ -27,6 +27,10 @@ export class User extends Entity<UserProps> {
 		return this.props.isActive;
 	}
 
+	toggleStatus() {
+		this.props.isActive = !this.props.isActive;
+	}
+
 	private constructor(props: UserProps, id?: Id) {
 		super(props, id);
 	}

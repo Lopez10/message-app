@@ -44,4 +44,15 @@ export class UserMongoRepository implements UserRepositoryPort {
 
 		return users.map(UserMapper.toDomain);
 	}
+
+	async update(user: User): Promise<void> {
+		const userPrisma: UserPrimitives = UserMapper.toDto(user);
+
+		await this.prisma.user.update({
+			where: {
+				id: user.id.value,
+			},
+			data: userPrisma,
+		});
+	}
 }

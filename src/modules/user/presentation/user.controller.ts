@@ -1,4 +1,4 @@
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserMongoRepository as UserPostgreRepository } from '../infrastructure/user.postgre.repository';
 import { UserRepositoryPortSymbol } from '../domain/user.repository.port';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { GetActiveUsers } from '../application/get-active-users/get-active-users.use-case';
 import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
+import { UpdateUserStatus } from '../application/update-user-status/update-user-status.use-case';
 
 @ApiTags('user')
 @Controller('user')
@@ -40,12 +41,14 @@ export class UserController {
 
 	@UseGuards(JwtAuthGuard)
 	@Patch('me/status')
+	@ApiBearerAuth()
 	@ApiResponse({
 		status: 200,
 		description: 'User status updated',
 	})
 	async updateStatus(@Request() req) {
-		console.log(req.user.email);
-		throw new Error('Method not implemented.');
+		const updateStatus = new UpdateUserStatus(this.userRepository);
+
+		await updateStatus.run(req.user.email);
 	}
 }

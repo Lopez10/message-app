@@ -6,6 +6,8 @@ export interface UserRepositoryPort {
 	findByEmail(email: Email): Promise<User | null>;
 	findById(id: Id): Promise<User | null>;
 	insert(user: User): Promise<void>;
+	getActiveUsers(): Promise<User[]>;
+	update(user: User): Promise<void>;
 }
 
 export const UserRepositoryPortSymbol = Symbol('UserRepositoryPort');

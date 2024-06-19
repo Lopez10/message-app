@@ -4,6 +4,12 @@ import type { User } from '../domain/user.entity';
 import type { Email } from '../domain/email.value-object';
 
 export class UserMemoryRepository implements UserRepositoryPort {
+	getActiveUsers(): Promise<User[]> {
+		throw new Error('Method not implemented.');
+	}
+	update(user: User): Promise<void> {
+		throw new Error('Method not implemented.');
+	}
 	private users: User[] = [];
 
 	async findByEmail(email: Email): Promise<User | null> {
