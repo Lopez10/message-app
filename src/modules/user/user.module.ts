@@ -7,6 +7,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { GetActiveUsers } from './application/get-active-users/get-active-users.use-case';
 import { GetUserByEmail } from './application/get-user-by-email/get-user-by-email.use-case';
 import { UpdateUserStatus } from './application/update-user-status/update-user-status.use-case';
+import { UpdateUser } from './application/update-user/update-user.use-case';
 @Module({
 	imports: [PrismaModule, AuthModule],
 	controllers: [UserController],
@@ -18,6 +19,7 @@ import { UpdateUserStatus } from './application/update-user-status/update-user-s
 		GetActiveUsers,
 		GetUserByEmail,
 		UpdateUserStatus,
+		UpdateUser,
 	],
 	exports: [
 		{
