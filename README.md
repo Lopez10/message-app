@@ -25,16 +25,17 @@ cd message-app
 
 2. Install dependencies:
 ```bash
-$ pnpm install
+pnpm install
 ```
 
 3. Set up environment variables:
 ```
 Create a `.env.dev` file in the root of the project with the `.env.example` content
 ```
+
 4. Start the Docker containers
 ```bash
-make docker-local-up
+make docker-dev-up
 ```
 
 
