@@ -8,6 +8,14 @@ export interface NotificationProps {
 	createdAt: Date;
 }
 
+export interface NotificationPrimitives {
+	id: string;
+	userId: string;
+	message: string;
+	isRead: boolean;
+	createdAt: Date;
+}
+
 export class Notification extends Entity<NotificationProps> {
 	get userId() {
 		return this.props.userId;
