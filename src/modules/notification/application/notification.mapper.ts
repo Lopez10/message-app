@@ -7,7 +7,7 @@ import { NotificationEntityUnknownException } from '../domain/notification.entit
 import { ApiProperty } from '@nestjs/swagger';
 
 export class NotificationMapper {
-	static toDto(notification: Notification): NotificationPrimitives {
+	static toDto(notification: Notification): NotificationDto {
 		return {
 			id: notification.id.value,
 			userId: notification.userId.value,
@@ -17,7 +17,7 @@ export class NotificationMapper {
 	}
 
 	static toDomain(
-		notification: NotificationPrimitives,
+		notification: NotificationDto,
 	): Either<NotificationEntityUnknownException, Notification> {
 		return Notification.create(
 			{

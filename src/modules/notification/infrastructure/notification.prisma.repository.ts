@@ -6,6 +6,7 @@ import {
 	NotificationPrimitives,
 } from '../domain/notification.entity';
 import { NotificationMapper } from '../application/notification.mapper';
+import { Id } from '@lib';
 
 @Injectable()
 export class NotificationPrismaRepository
@@ -20,5 +21,17 @@ export class NotificationPrismaRepository
 		await this.prisma.notification.create({
 			data: notificationDto,
 		});
+	}
+
+	async findAllByUserId(userId: Id): Promise<Notification[]> {
+		const notifications = await this.prisma.notification.findMany({
+			where: {
+				userId: userId.value,
+			},
+		});
+
+		return notifications.map((notification) =>
+			NotificationMapper.toDomain(notification).get(),
+		);
 	}
 }

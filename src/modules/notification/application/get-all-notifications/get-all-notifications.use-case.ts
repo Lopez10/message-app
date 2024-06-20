@@ -1,11 +1,11 @@
-import { Either, UseCase } from '@lib';
+import { Either, Id, UseCase } from '@lib';
 import { Inject, Injectable } from '@nestjs/common';
 import { GetAllNotificationsDto } from './get-all-notifications.mapper';
 import {
 	NotificationRepositoryPortSymbol,
 	NotificationRepositoryPort,
 } from '@modules/notification/domain/notification.repository.port';
-import { NotificationDto } from '../notification.mapper';
+import { NotificationDto, NotificationMapper } from '../notification.mapper';
 
 @Injectable()
 export class GetAllNotifications
@@ -17,8 +17,16 @@ export class GetAllNotifications
 	) {}
 
 	async run(
-		request?: GetAllNotificationsDto,
+		getAllNotificationsDto: GetAllNotificationsDto,
 	): Promise<Either<void, NotificationDto[]>> {
-		throw new Error('Method not implemented.');
+		const userId = new Id(getAllNotificationsDto.userId);
+		const notifications =
+			await this.notificationRepository.findAllByUserId(userId);
+
+		const notificationDtos = notifications.map((notification) =>
+			NotificationMapper.toDto(notification),
+		);
+
+		return Either.right(notificationDtos);
 	}
 }
