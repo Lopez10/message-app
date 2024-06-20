@@ -20,15 +20,17 @@ import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
 import { CreateMessageBodyDto } from './message.dto';
 import { CreateMessage } from '../application/create-message/create-message.use-case';
 import { CreateMessageDto } from '../application/create-message/create-message.mapper';
+import { MessagePrismaRepository } from '../infrastructure/message.prisma.repository';
+import { UserPrismaRepository } from '@modules/user/infrastructure/user.prisma.repository';
 
 @ApiTags('message')
 @Controller('message')
 export class MessageController {
 	constructor(
 		@Inject(MessageRepositoryPortSymbol)
-		private readonly messageRepository: MessageRepositoryPort,
+		private readonly messageRepository: MessagePrismaRepository,
 		@Inject(UserRepositoryPortSymbol)
-		private readonly userRepository: UserRepositoryPort,
+		private readonly userRepository: UserPrismaRepository,
 	) {}
 
 	@UseGuards(JwtAuthGuard)
@@ -60,6 +62,8 @@ export class MessageController {
 			throw new HttpException(error.message, 500);
 		}
 
-		return messageCreated.get();
+		return {
+			message: 'Message created',
+		};
 	}
 }

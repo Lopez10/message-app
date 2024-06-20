@@ -89,3 +89,5 @@ export class Either<L, R> {
 		return new Either<L, R>({ kind: 'right', rightValue: value });
 	}
 }
+
+export type Success = { success: true };

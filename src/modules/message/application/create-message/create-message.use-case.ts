@@ -1,4 +1,4 @@
-import { Either, Id, UseCase } from '@lib';
+import { Either, Id, Success, UseCase } from '@lib';
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateMessageDto, CreateMessageMapper } from './create-message.mapper';
 import { MessageEntityUnknownException } from '@modules/message/domain/message.entity.exception';
@@ -24,7 +24,7 @@ export class CreateMessage
 				| MessageEntityUnknownException
 				| UserReceiverNotFoundException
 				| UserReceiverIsNotActiveException,
-				void
+				Success
 			>
 		>
 {
@@ -42,7 +42,7 @@ export class CreateMessage
 			| MessageEntityUnknownException
 			| UserReceiverNotFoundException
 			| UserReceiverIsNotActiveException,
-			void
+			Success
 		>
 	> {
 		const messageCreated = CreateMessageMapper.toDomain(createMessageDto);
@@ -62,5 +62,7 @@ export class CreateMessage
 		}
 
 		await this.messageRepository.insert(messageCreated.get());
+
+		return Either.right({ success: true });
 	}
 }

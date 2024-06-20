@@ -12,7 +12,7 @@ import { MessageController } from './presentation/message.controller';
 	providers: [
 		{
 			provide: MessageRepositoryPortSymbol,
-			useValue: MessagePrismaRepository,
+			useClass: MessagePrismaRepository,
 		},
 		CreateMessage,
 	],
