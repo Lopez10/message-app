@@ -12,18 +12,19 @@ export class NotificationMapper {
 			userId: notification.userId.value,
 			message: notification.message,
 			isRead: notification.isRead,
-			createdAt: notification.createdAt,
 		};
 	}
 
 	static toDomain(
 		notification: NotificationPrimitives,
 	): Either<NotificationEntityUnknownException, Notification> {
-		return Notification.create({
-			userId: new Id(notification.userId),
-			message: notification.message,
-			isRead: notification.isRead,
-			createdAt: notification.createdAt,
-		});
+		return Notification.create(
+			{
+				userId: new Id(notification.userId),
+				message: notification.message,
+				isRead: notification.isRead,
+			},
+			new Id(notification.id),
+		);
 	}
 }

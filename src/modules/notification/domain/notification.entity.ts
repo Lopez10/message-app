@@ -5,7 +5,6 @@ export interface NotificationProps {
 	userId: Id;
 	message: string;
 	isRead: boolean;
-	createdAt: Date;
 }
 
 export interface NotificationPrimitives {
@@ -13,7 +12,6 @@ export interface NotificationPrimitives {
 	userId: string;
 	message: string;
 	isRead: boolean;
-	createdAt: Date;
 }
 
 export class Notification extends Entity<NotificationProps> {
@@ -27,10 +25,6 @@ export class Notification extends Entity<NotificationProps> {
 
 	get isRead() {
 		return this.props.isRead;
-	}
-
-	get createdAt() {
-		return this.props.createdAt;
 	}
 
 	private constructor(props: NotificationProps, id?: Id) {
