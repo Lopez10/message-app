@@ -1,4 +1,4 @@
-import { Either, UseCase } from '@lib';
+import { Either, Success, UseCase } from '@lib';
 import { Inject, Injectable } from '@nestjs/common';
 import {
 	CreateNotificationDto,
@@ -15,7 +15,7 @@ export class CreateNotification
 	implements
 		UseCase<
 			CreateNotificationDto,
-			Either<NotificationEntityUnknownException, void>
+			Either<NotificationEntityUnknownException, Success>
 		>
 {
 	constructor(
@@ -24,7 +24,7 @@ export class CreateNotification
 	) {}
 	async run(
 		createNotificationDto: CreateNotificationDto,
-	): Promise<Either<NotificationEntityUnknownException, void>> {
+	): Promise<Either<NotificationEntityUnknownException, Success>> {
 		const notification = CreateNotificationMapper.toDomain(
 			createNotificationDto,
 		);
@@ -34,5 +34,7 @@ export class CreateNotification
 		}
 
 		await this.notificationRepository.insert(notification.get());
+
+		return Either.right({ success: true });
 	}
 }

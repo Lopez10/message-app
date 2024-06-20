@@ -39,7 +39,7 @@ model Notification {
   id        String   @id @unique
   userId    String
   message   String
-  read      Boolean  @default(false)
+  isRead    Boolean  @default(false)
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }

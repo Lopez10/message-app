@@ -12,7 +12,6 @@ export class MessagePrismaRepository implements MessageRepositoryPort {
 	// Modify to Either
 	async insert(message: Message): Promise<void> {
 		const messageDto = MessageMapper.toDto(message);
-
 		const messageCreated = await this.prisma.message.create({
 			data: messageDto,
 		});
