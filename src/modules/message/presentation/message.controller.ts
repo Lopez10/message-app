@@ -5,6 +5,7 @@ import {
 import {
 	Body,
 	Controller,
+	Get,
 	HttpException,
 	Inject,
 	Post,
@@ -17,14 +18,14 @@ import {
 	MessageRepositoryPort,
 } from '../domain/message.repository.port';
 import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
-import { CreateMessageBodyDto } from './message.dto';
+import { CreateMessageBodyDto, MessageDto } from './message.dto';
 import { CreateMessage } from '../application/create-message/create-message.use-case';
 import { CreateMessageDto } from '../application/create-message/create-message.mapper';
 import { MessagePrismaRepository } from '../infrastructure/message.prisma.repository';
 import { UserPrismaRepository } from '@modules/user/infrastructure/user.prisma.repository';
 
-@ApiTags('message')
-@Controller('message')
+@ApiTags('messages')
+@Controller('messages')
 export class MessageController {
 	constructor(
 		@Inject(MessageRepositoryPortSymbol)
@@ -66,4 +67,14 @@ export class MessageController {
 			message: 'Message created',
 		};
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('me')
+	@ApiBearerAuth()
+	@ApiResponse({
+		status: 200,
+		description: 'Get all messages',
+		type: [MessageDto],
+	})
+	async getAll(@Request() req) {}
 }

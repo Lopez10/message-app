@@ -16,11 +16,10 @@ import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
 import { UpdateUserStatus } from '../application/update-user-status/update-user-status.use-case';
 import { GetUserByEmail } from '../application/get-user-by-email/get-user-by-email.use-case';
 import { UpdateUser } from '../application/update-user/update-user.use-case';
-import { UserPrimitives } from '../domain/user.entity';
 import { UpdateUserBody } from '../application/update-user/update-user.mapper';
 
-@ApiTags('user')
-@Controller('user')
+@ApiTags('users')
+@Controller('users')
 export class UserController {
 	constructor(
 		@Inject(UserRepositoryPortSymbol)
