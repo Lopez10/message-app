@@ -6,6 +6,7 @@ import {
 	Get,
 	Inject,
 	Patch,
+	Put,
 	Request,
 	UseGuards,
 } from '@nestjs/common';
@@ -72,4 +73,13 @@ export class UserController {
 
 		return result.get();
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Put('me')
+	@ApiBearerAuth()
+	@ApiResponse({
+		status: 200,
+		description: 'User updated',
+	})
+	async update(@Request() req) {}
 }
