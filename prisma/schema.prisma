@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id               String    @id @unique
+  id               String         @id @unique
   name             String
-  email            String    @unique
-  isActive         Boolean?  @default(true)
+  email            String         @unique
+  isActive         Boolean?       @default(true)
   auth             Auth?
-  messagesSent     Message[] @relation("MessagesSent")
-  messagesReceived Message[] @relation("MessagesReceived")
+  messagesSent     Message[]      @relation("MessagesSent")
+  messagesReceived Message[]      @relation("MessagesReceived")
+  Notification     Notification[]
 }
 
 model Auth {
@@ -32,4 +33,12 @@ model Message {
 
   sender   User @relation("MessagesSent", fields: [senderId], references: [id])
   receiver User @relation("MessagesReceived", fields: [receiverId], references: [id])
+}
+
+model Notification {
+  id      String  @id @unique
+  userId  String
+  message String
+  read    Boolean @default(false)
+  user    User    @relation(fields: [userId], references: [id])
 }
