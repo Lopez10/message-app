@@ -19,7 +19,7 @@ Follow these steps to set up and run the project locally.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/message-app.git
+git clone git@github.com:Lopez10/message-app.git
 cd message-app
 ```
 
