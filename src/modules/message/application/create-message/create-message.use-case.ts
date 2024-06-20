@@ -6,6 +6,10 @@ import {
 	MessageRepositoryPort,
 	MessageRepositoryPortSymbol,
 } from '@modules/message/domain/message.repository.port';
+import {
+	UserRepositoryPort,
+	UserRepositoryPortSymbol,
+} from '@modules/user/domain/user.repository.port';
 
 @Injectable()
 export class CreateMessage
@@ -15,6 +19,9 @@ export class CreateMessage
 	constructor(
 		@Inject(MessageRepositoryPortSymbol)
 		private readonly messageRepository: MessageRepositoryPort,
+
+		@Inject(UserRepositoryPortSymbol)
+		private readonly userRepository: UserRepositoryPort,
 	) {}
 	async run(
 		createMessageDto: CreateMessageDto,
