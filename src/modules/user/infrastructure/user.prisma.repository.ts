@@ -23,8 +23,16 @@ export class UserPrismaRepository implements UserRepositoryPort {
 		return UserMapper.toDomain(user).get();
 	}
 
-	findById(id: Id): Promise<User | null> {
-		throw new Error('Method not implemented.');
+	async findById(id: Id): Promise<User | null> {
+		const user: UserPrisma = await this.prisma.user.findUnique({
+			where: {
+				id: id.value,
+			},
+		});
+
+		if (!user) return null;
+
+		return UserMapper.toDomain(user).get();
 	}
 
 	async insert(user: User): Promise<void> {
