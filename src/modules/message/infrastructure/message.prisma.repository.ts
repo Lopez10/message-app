@@ -23,7 +23,13 @@ export class MessagePrismaRepository implements MessageRepositoryPort {
 		}
 	}
 
-	findAllByReceiverId(receiverId: Id): Promise<Message[]> {
-		throw new Error('Method not implemented.');
+	async findAllByReceiverId(receiverId: Id): Promise<Message[]> {
+		const messages = await this.prisma.message.findMany({
+			where: {
+				receiverId: receiverId.value,
+			},
+		});
+
+		return messages.map((message) => MessageMapper.toDomain(message).get());
 	}
 }
