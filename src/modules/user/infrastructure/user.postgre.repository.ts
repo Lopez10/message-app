@@ -20,7 +20,7 @@ export class UserMongoRepository implements UserRepositoryPort {
 
 		if (!user) return null;
 
-		return UserMapper.toDomain(user);
+		return UserMapper.toDomain(user).get();
 	}
 
 	findById(id: Id): Promise<User | null> {
@@ -36,13 +36,13 @@ export class UserMongoRepository implements UserRepositoryPort {
 	}
 
 	async getActiveUsers(): Promise<User[]> {
-		const users: UserPrisma[] = await this.prisma.user.findMany({
+		const usersPersistence: UserPrisma[] = await this.prisma.user.findMany({
 			where: {
 				isActive: true,
 			},
 		});
 
-		return users.map(UserMapper.toDomain);
+		return usersPersistence.map((user) => UserMapper.toDomain(user).get());
 	}
 
 	async update(user: User): Promise<void> {

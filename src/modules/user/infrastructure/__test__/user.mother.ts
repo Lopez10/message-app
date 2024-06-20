@@ -11,6 +11,6 @@ export class UserMother {
 			...params,
 		};
 
-		return UserMapper.toDomain(userDto);
+		return UserMapper.toDomain(userDto).get();
 	}
 }

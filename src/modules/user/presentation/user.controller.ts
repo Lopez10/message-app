@@ -2,6 +2,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserMongoRepository as UserPostgreRepository } from '../infrastructure/user.postgre.repository';
 import { UserRepositoryPortSymbol } from '../domain/user.repository.port';
 import {
+	Body,
 	Controller,
 	Get,
 	Inject,
@@ -14,6 +15,9 @@ import { GetActiveUsers } from '../application/get-active-users/get-active-users
 import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
 import { UpdateUserStatus } from '../application/update-user-status/update-user-status.use-case';
 import { GetUserByEmail } from '../application/get-user-by-email/get-user-by-email.use-case';
+import { UpdateUser } from '../application/update-user/update-user.use-case';
+import { UserPrimitives } from '../domain/user.entity';
+import { UpdateUserBody } from '../application/update-user/update-user.mapper';
 
 @ApiTags('user')
 @Controller('user')
@@ -81,5 +85,14 @@ export class UserController {
 		status: 200,
 		description: 'User updated',
 	})
-	async update(@Request() req) {}
+	async update(@Request() req, @Body() body: UpdateUserBody) {
+		const updateUser = new UpdateUser(this.userRepository);
+
+		const userDto = {
+			id: req.user.id,
+			updateUserBody: body,
+		};
+
+		await updateUser.run(userDto);
+	}
 }

@@ -1,9 +1,12 @@
-import { Id } from '@lib';
+import { Either, Id } from '@lib';
 import { Email } from '../domain/email.value-object';
 import { User, type UserPrimitives } from '../domain/user.entity';
+import { UserEntityUnknownException } from '../domain/user.entity.exception';
 
 export class UserMapper {
-	static toDomain(userDto: UserPrimitives): User {
+	static toDomain(
+		userDto: UserPrimitives,
+	): Either<UserEntityUnknownException, User> {
 		return User.create(
 			{
 				email: Email.create(userDto.email).get(),
@@ -11,7 +14,7 @@ export class UserMapper {
 				name: userDto.name,
 			},
 			new Id(userDto.id),
-		).get();
+		);
 	}
 
 	static toDto(user: User): UserPrimitives {
