@@ -1,14 +1,44 @@
-## Description
+# MessageApp
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Descripción
+
+MessageApp is a messaging application that allows users to register, log in, and send messages to each other. The application is built with NestJS and uses JWT for authentication. The database is managed by MongoDB and Prisma.
+
+## Features
+- User registration
+- JWT-based login
+- Sending and receiving messages
+- Viewing messages by user
+- Route protection with JWT
+- API documentation with Swagger
 
 ## Installation
 
+Follow these steps to set up and run the project locally.
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/message-app.git
+cd message-app
+```
+
+2. Install dependencies:
 ```bash
 $ pnpm install
 ```
 
-## Running the app
+3. Set up environment variables:
+
+Create a `.env.dev` file in the root of the project with the `.env.example` content
+
+4. Start the Docker containers
+```bash
+make docker-local-up
+```
+
+
+<!-- ## Running the app
 
 ```bash
 # development
@@ -19,31 +49,17 @@ $ pnpm run start:dev
 
 # production mode
 $ pnpm run start:prod
-```
+``` -->
 
 ## Test
 
 ```bash
 # unit tests
 $ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## API Documentation
+The API documentation is available at http://localhost:3000/api-doc once the application is running.
 
 ## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Author - [Juan López Berges](https://juan-lopez.netlify.app/)
