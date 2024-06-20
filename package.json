@@ -1,25 +1,17 @@
 {
-  "name": "hex-ddd-template",
+  "name": "message-app",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Message app with NestJS and Prisma",
+  "author": "Lopez10",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:debug": "nest start --debug --watch",
     "start:local": "dotenv -e .env.local -- nest start --watch",
-    "start:prod": "node dist/main",
+    "prisma:db:create:local": "dotenv -e .env.local -- prisma db push",
     "start:dev": "export NODE_ENV=dev && node dist/src/main",
     "start:migrate:dev": "export NODE_ENV=dev && pnpm start:dev && prisma migrate deploy",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
