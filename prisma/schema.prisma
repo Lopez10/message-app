@@ -21,3 +21,10 @@ model Auth {
   user     User   @relation(fields: [userId], references: [id])
   password String
 }
+
+model Message {
+  id                String @id @unique
+  originUserId      String
+  destinationUserId String
+  content           String
+}
