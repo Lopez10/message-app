@@ -8,7 +8,7 @@ import { UserMapper } from '../application/user.mapper';
 import type { User as UserPrisma } from '@prisma/client';
 
 @Injectable()
-export class UserMongoRepository implements UserRepositoryPort {
+export class UserPrismaRepository implements UserRepositoryPort {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async findByEmail(email: Email): Promise<User | null> {

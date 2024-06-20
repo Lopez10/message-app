@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from '@modules/prisma/prisma.module';
-import { AuthMongoRepository } from './infrastructure/auth.mongo.repository';
+import { AuthPrismaRepository } from './infrastructure/auth.prisma.repository';
 import { AuthRepositoryPortSymbol } from './domain/auth.repository.port';
 import { JwtTokenServiceSymbol } from './domain/jwt/jwt-token.service.port';
 import { JwtTokenService } from './application/jwt-token.service';
@@ -13,7 +13,7 @@ import { JwtStrategy } from './jwt.strategy';
 	providers: [
 		{
 			provide: AuthRepositoryPortSymbol,
-			useClass: AuthMongoRepository,
+			useClass: AuthPrismaRepository,
 		},
 		{
 			provide: JwtTokenServiceSymbol,
@@ -34,7 +34,7 @@ import { JwtStrategy } from './jwt.strategy';
 		JwtModule,
 		{
 			provide: AuthRepositoryPortSymbol,
-			useClass: AuthMongoRepository,
+			useClass: AuthPrismaRepository,
 		},
 		{
 			provide: JwtTokenServiceSymbol,

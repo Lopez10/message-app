@@ -3,7 +3,7 @@ import { Email } from '@modules/user/domain/email.value-object';
 import { InvalidEmailFormatException } from '@modules/user/domain/email.value-object.exception';
 import { UserPrimitives } from '@modules/user/domain/user.entity';
 import { UserRepositoryPortSymbol } from '@modules/user/domain/user.repository.port';
-import { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
+import { UserPrismaRepository } from '@modules/user/infrastructure/user.prisma.repository';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserNotFoundException } from '../user.exception';
 import { UserMapper } from '../user.mapper';
@@ -21,7 +21,7 @@ export class GetUserByEmail
 {
 	constructor(
 		@Inject(UserRepositoryPortSymbol)
-		private readonly userRepository: UserMongoRepository,
+		private readonly userRepository: UserPrismaRepository,
 	) {}
 	async run(
 		email: string,

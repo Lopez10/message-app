@@ -7,7 +7,7 @@ import type { Auth as AuthPrisma } from '@prisma/client';
 import { AuthMapper } from '../application/auth.mapper';
 
 @Injectable()
-export class AuthMongoRepository implements AuthRepositoryPort {
+export class AuthPrismaRepository implements AuthRepositoryPort {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async insert(auth: Auth): Promise<void> {

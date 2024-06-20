@@ -1,9 +1,9 @@
 import { JwtTokenService } from '@modules/auth/application/jwt-token.service';
 import { AuthRepositoryPortSymbol } from '@modules/auth/domain/auth.repository.port';
 import { JwtTokenServiceSymbol } from '@modules/auth/domain/jwt/jwt-token.service.port';
-import { AuthMongoRepository } from '@modules/auth/infrastructure/auth.mongo.repository';
+import { AuthPrismaRepository } from '@modules/auth/infrastructure/auth.prisma.repository';
 import { UserRepositoryPortSymbol } from '@modules/user/domain/user.repository.port';
-import { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
+import { UserPrismaRepository } from '@modules/user/infrastructure/user.prisma.repository';
 import {
 	Controller,
 	Inject,
@@ -29,10 +29,10 @@ import {
 export class AuthUserController {
 	constructor(
 		@Inject(AuthRepositoryPortSymbol)
-		private readonly authRepository: AuthMongoRepository,
+		private readonly authRepository: AuthPrismaRepository,
 
 		@Inject(UserRepositoryPortSymbol)
-		private readonly userRepository: UserMongoRepository,
+		private readonly userRepository: UserPrismaRepository,
 
 		@Inject(JwtTokenServiceSymbol)
 		private readonly jwtService: JwtTokenService,

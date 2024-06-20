@@ -1,7 +1,7 @@
 import { Either, UseCase } from '@lib';
 import { User, UserPrimitives } from '@modules/user/domain/user.entity';
 import { UserRepositoryPortSymbol } from '@modules/user/domain/user.repository.port';
-import { UserMongoRepository } from '@modules/user/infrastructure/user.postgre.repository';
+import { UserPrismaRepository } from '@modules/user/infrastructure/user.prisma.repository';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserMapper } from '../user.mapper';
 
@@ -11,7 +11,7 @@ export class GetActiveUsers
 {
 	constructor(
 		@Inject(UserRepositoryPortSymbol)
-		private readonly userRepository: UserMongoRepository,
+		private readonly userRepository: UserPrismaRepository,
 	) {}
 
 	async run(): Promise<Either<void, UserPrimitives[]>> {

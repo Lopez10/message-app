@@ -1,5 +1,5 @@
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserMongoRepository as UserPostgreRepository } from '../infrastructure/user.postgre.repository';
+import { UserPrismaRepository as UserPostgreRepository } from '../infrastructure/user.prisma.repository';
 import { UserRepositoryPortSymbol } from '../domain/user.repository.port';
 import {
 	Body,
