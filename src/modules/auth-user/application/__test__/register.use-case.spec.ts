@@ -47,7 +47,7 @@ describe('Register Use Case', () => {
 
 		// THEN
 		expect(result.isRight()).toBeTruthy();
-		expect(result.get()).toContain('Bearer');
+		expect(result.get().accessToken).toContain('Bearer');
 
 		// AND
 		const user = await userRepository.findByEmail(Email.create(email).get());

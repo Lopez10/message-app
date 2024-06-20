@@ -4,14 +4,14 @@ import { MessageEntityUnknownException } from './message.entity.exception';
 export interface MessagePrimitives {
 	id: string;
 	content: string;
-	originUserId: string;
-	destinationUserId: string;
+	senderId: string;
+	receiverId: string;
 }
 
 export interface MessageProps {
 	content: string;
-	originUserId: Id;
-	destinationUserId: Id;
+	senderId: Id;
+	receiverId: Id;
 }
 
 export class Message extends Entity<MessageProps> {
@@ -19,12 +19,12 @@ export class Message extends Entity<MessageProps> {
 		return this.props.content;
 	}
 
-	get originUserId() {
-		return this.props.originUserId;
+	get senderId() {
+		return this.props.senderId;
 	}
 
-	get destinationUserId() {
-		return this.props.destinationUserId;
+	get receiverId() {
+		return this.props.receiverId;
 	}
 
 	private constructor(props: MessageProps, id?: Id) {

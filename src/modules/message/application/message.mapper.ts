@@ -7,8 +7,8 @@ export class MessageMapper {
 		return {
 			id: message.id.value,
 			content: message.content,
-			originUserId: message.originUserId.value,
-			destinationUserId: message.destinationUserId.value,
+			senderId: message.senderId.value,
+			receiverId: message.receiverId.value,
 		};
 	}
 	static toDomain(
@@ -17,8 +17,8 @@ export class MessageMapper {
 		return Message.create(
 			{
 				content: message.content,
-				originUserId: new Id(message.originUserId),
-				destinationUserId: new Id(message.destinationUserId),
+				senderId: new Id(message.senderId),
+				receiverId: new Id(message.receiverId),
 			},
 			new Id(message.id),
 		);

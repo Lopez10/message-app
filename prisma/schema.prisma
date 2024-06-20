@@ -8,11 +8,13 @@ datasource db {
 }
 
 model User {
-  id       String   @id @unique
-  name     String
-  email    String   @unique
-  isActive Boolean? @default(true)
-  auth     Auth?
+  id               String    @id @unique
+  name             String
+  email            String    @unique
+  isActive         Boolean?  @default(true)
+  auth             Auth?
+  messagesSent     Message[] @relation("MessagesSent")
+  messagesReceived Message[] @relation("MessagesReceived")
 }
 
 model Auth {
@@ -23,8 +25,11 @@ model Auth {
 }
 
 model Message {
-  id                String @id @unique
-  originUserId      String
-  destinationUserId String
-  content           String
+  id         String @id @unique
+  senderId   String
+  receiverId String
+  content    String
+
+  sender   User @relation("MessagesSent", fields: [senderId], references: [id])
+  receiver User @relation("MessagesReceived", fields: [receiverId], references: [id])
 }

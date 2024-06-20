@@ -16,22 +16,22 @@ export class CreateMessageDto {
 		description: 'Origin user id',
 		required: true,
 	})
-	originUserId: string;
+	senderId: string;
 
 	@ApiProperty({
 		example: '2',
 		description: 'Destination user id',
 		required: true,
 	})
-	destinationUserId: string;
+	receiverId: string;
 }
 
 export class CreateMessageMapper {
-	static toDto(message: Message): CreateMessageDto {
+	static toDto(createMessage: Message): CreateMessageDto {
 		return {
-			content: message.content,
-			originUserId: message.originUserId.value,
-			destinationUserId: message.destinationUserId.value,
+			content: createMessage.content,
+			senderId: createMessage.senderId.value,
+			receiverId: createMessage.receiverId.value,
 		};
 	}
 
@@ -40,8 +40,8 @@ export class CreateMessageMapper {
 	): Either<MessageEntityUnknownException, Message> {
 		return Message.create({
 			content: createMessageDto.content,
-			originUserId: new Id(createMessageDto.originUserId),
-			destinationUserId: new Id(createMessageDto.destinationUserId),
+			senderId: new Id(createMessageDto.senderId),
+			receiverId: new Id(createMessageDto.receiverId),
 		});
 	}
 }

@@ -1,10 +1,10 @@
 import { JwtTokenServiceMock } from '@modules/auth/domain/__test__/jwt-token.service.mock';
 import { AuthMemoryRepository } from '@modules/auth/infrastructure/auth.memory.repository';
 import { UserMemoryRepository } from '@modules/user/infrastructure/user.memory.repository';
-import { Login } from '../login/login.use-case';
 import { AuthMother } from '@modules/auth/infrastructure/__test__/auth.mother';
 import { UserMother } from '@modules/user/infrastructure/__test__/user.mother';
-import { InvalidEmailOrPasswordException } from '../login/login.use-case.exception';
+import { Login } from '@modules/auth-user/application/login/login.use-case';
+import { InvalidEmailOrPasswordException } from '@modules/auth-user/application/login/login.use-case.exception';
 
 describe('Login Use Case', () => {
 	it(`
@@ -34,7 +34,7 @@ describe('Login Use Case', () => {
 
 		// THEN
 		expect(result.isRight()).toBeTruthy();
-		expect(result.get()).toEqual(
+		expect(result.get().accessToken).toEqual(
 			'Bearer 38010560-d08f-42d8-a3e5-72d55aa51e07.test@valid.com.test',
 		);
 	});
