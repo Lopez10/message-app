@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { UserRepositoryPort } from '../domain/user.repository.port';
 import { PrismaService } from '@modules/prisma/prisma.service';
-import { Either, Id } from '@lib';
+import { Either, Id, UnexpectedError } from '@lib';
 import type { Email } from '../domain/email.value-object';
 import type { User, UserPrimitives } from '../domain/user.entity';
 import { UserMapper } from '../application/user.mapper';
@@ -30,24 +30,30 @@ export class UserPrismaRepository implements UserRepositoryPort {
 		return Either.right(user);
 	}
 
-	async findById(id: Id): Promise<User | null> {
-		const user: UserPrisma = await this.prisma.user.findUnique({
+	async findById(id: Id): Promise<Either<UserNotFoundException, User>> {
+		const userFound: UserPrisma = await this.prisma.user.findUnique({
 			where: {
 				id: id.value,
 			},
 		});
 
-		if (!user) return null;
+		if (!userFound) {
+			return Either.left(new UserNotFoundException());
+		}
 
-		return UserMapper.toDomain(user).get();
+		const user = UserMapper.toDomain(userFound).get();
+
+		return Either.right(user);
 	}
 
-	async insert(user: User): Promise<void> {
+	async insert(user: User): Promise<Either<UnexpectedError, void>> {
 		const userPrisma: UserPrimitives = UserMapper.toDto(user);
 
 		await this.prisma.user.create({
 			data: userPrisma,
 		});
+
+		return Either.right(undefined);
 	}
 
 	async getActiveUsers(): Promise<User[]> {

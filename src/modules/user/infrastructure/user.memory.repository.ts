@@ -1,4 +1,4 @@
-import { Either, Id } from '@lib';
+import { Either, Id, UnexpectedError } from '@lib';
 import type { UserRepositoryPort } from '../domain/user.repository.port';
 import type { User } from '../domain/user.entity';
 import type { Email } from '../domain/email.value-object';
@@ -25,11 +25,19 @@ export class UserMemoryRepository implements UserRepositoryPort {
 		return Either.right(user);
 	}
 
-	async findById(id: Id): Promise<User | null> {
-		return this.users.find((user) => user.id.isEqual(id)) || null;
+	async findById(id: Id): Promise<Either<UserNotFoundException, User>> {
+		const user = this.users.find((user) => user.id.isEqual(id)) || null;
+
+		if (!user) {
+			return Either.left(new UserNotFoundException());
+		}
+
+		return Either.right(user);
 	}
 
-	async insert(user: User): Promise<void> {
+	async insert(user: User): Promise<Either<UnexpectedError, void>> {
 		this.users.push(user);
+
+		return Either.right(undefined);
 	}
 }

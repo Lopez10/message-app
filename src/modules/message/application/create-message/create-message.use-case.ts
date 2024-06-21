@@ -14,6 +14,7 @@ import {
 	UserReceiverIsNotActiveException,
 	UserReceiverNotFoundException,
 } from '../message.exception';
+import { UserNotFoundException } from '@modules/user/domain/user.exception';
 
 @Injectable()
 export class CreateMessage
@@ -23,7 +24,8 @@ export class CreateMessage
 			Either<
 				| MessageEntityUnknownException
 				| UserReceiverNotFoundException
-				| UserReceiverIsNotActiveException,
+				| UserReceiverIsNotActiveException
+				| UserNotFoundException,
 				Success
 			>
 		>
@@ -41,7 +43,8 @@ export class CreateMessage
 		Either<
 			| MessageEntityUnknownException
 			| UserReceiverNotFoundException
-			| UserReceiverIsNotActiveException,
+			| UserReceiverIsNotActiveException
+			| UserNotFoundException,
 			Success
 		>
 	> {
@@ -53,11 +56,11 @@ export class CreateMessage
 		const receiverId = new Id(createMessageDto.receiverId);
 		const receiverUser = await this.userRepository.findById(receiverId);
 
-		if (!receiverUser) {
+		if (receiverUser.isLeft()) {
 			return Either.left(new UserReceiverNotFoundException());
 		}
 
-		if (!receiverUser.isActive) {
+		if (!receiverUser.get().isActive) {
 			return Either.left(new UserReceiverIsNotActiveException());
 		}
 
