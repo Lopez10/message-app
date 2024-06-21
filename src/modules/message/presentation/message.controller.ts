@@ -1,7 +1,4 @@
-import {
-	UserRepositoryPortSymbol,
-	UserRepositoryPort,
-} from '@modules/user/domain/user.repository.port';
+import { UserRepositoryPortSymbol } from '@modules/user/domain/user.repository.port';
 import {
 	Body,
 	Controller,
@@ -13,10 +10,7 @@ import {
 	UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import {
-	MessageRepositoryPortSymbol,
-	MessageRepositoryPort,
-} from '../domain/message.repository.port';
+import { MessageRepositoryPortSymbol } from '../domain/message.repository.port';
 import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
 import { CreateMessageBodyDto } from './message.dto';
 import { CreateMessage } from '../application/create-message/create-message.use-case';
@@ -24,7 +18,7 @@ import { CreateMessageDto } from '../application/create-message/create-message.m
 import { MessagePrismaRepository } from '../infrastructure/message.prisma.repository';
 import { UserPrismaRepository } from '@modules/user/infrastructure/user.prisma.repository';
 import { MessageDto } from '../application/message.mapper';
-import { GetAllMessages } from '../application/get-all/get-all-messages.use-case';
+import { GetAllMessages } from '../application/get-all-messages/get-all-messages.use-case';
 import { CreateNotification } from '@modules/notification/application/create-notification/create-notification.use-case';
 import {
 	NotificationRepositoryPort,
