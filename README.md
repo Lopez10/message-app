@@ -12,7 +12,7 @@ MessageApp is a messaging application that allows users to register, log in, and
 - Route protection with JWT
 - API documentation with Swagger
 
-## Installation
+## Dev Installation
 
 Follow these steps to set up and run the project in dev environment
 
@@ -23,6 +23,30 @@ git clone git@github.com:Lopez10/message-app.git
 cd message-app
 ```
 
+2. Set up environment variables:
+```
+Create a `.env.dev` file in the root of the project with the `.env.dev.example` content
+```
+
+3. Start the Docker containers
+```bash
+make docker-dev-up
+```
+
+## Local Installation
+Follow these steps to set up and run the project in local environment
+
+1. Go to the repository:
+
+```bash
+cd message-app
+```
+
+2. Install pnpm:
+```
+https://pnpm.io/installation
+```
+
 2. Install dependencies:
 ```bash
 pnpm install
@@ -30,14 +54,23 @@ pnpm install
 
 3. Set up environment variables:
 ```
-Create a `.env.dev` file in the root of the project with the `.env.example` content
+Create a `.env.local` file in the root of the project with the `.env.local.example` content.
 ```
 
-4. Start the Docker containers
+4. Start the Docker container
 ```bash
-make docker-dev-up
+make docker-local-up
 ```
 
+5. Create Prisma database
+```bash
+pnpm prisma:db:create:local
+```
+
+6. Start the project 
+```bash
+pnpm start:local
+```
 
 ## Test
 ```bash
