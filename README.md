@@ -14,7 +14,7 @@ MessageApp is a messaging application that allows users to register, log in, and
 
 ## Installation
 
-Follow these steps to set up and run the project locally.
+Follow these steps to set up and run the project in dev environment
 
 1. Clone the repository:
 
@@ -39,24 +39,9 @@ make docker-dev-up
 ```
 
 
-<!-- ## Running the app
-
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-``` -->
-
 ## Test
-
 ```bash
-# unit tests
-$ pnpm run test
+pnpm run test:watch
 ```
 
 ## API Documentation
