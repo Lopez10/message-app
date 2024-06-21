@@ -52,8 +52,8 @@ describe('Create Message Use Case', () => {
 		const messages = await messageRepository.findAllByReceiverId(
 			new Id(receiverId),
 		);
-		expect(messages.length).toBe(1);
-		expect(messages[0].content).toBe(content);
+		expect(messages.get().length).toBe(1);
+		expect(messages.get()[0].content).toBe(content);
 	});
 
 	it(`

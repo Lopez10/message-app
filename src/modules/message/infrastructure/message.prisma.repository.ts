@@ -22,13 +22,17 @@ export class MessagePrismaRepository implements MessageRepositoryPort {
 		return Either.right(undefined);
 	}
 
-	async findAllByReceiverId(receiverId: Id): Promise<Message[]> {
-		const messages = await this.prisma.message.findMany({
+	async findAllByReceiverId(receiverId: Id): Promise<Either<void, Message[]>> {
+		const messagesFound = await this.prisma.message.findMany({
 			where: {
 				receiverId: receiverId.value,
 			},
 		});
 
-		return messages.map((message) => MessageMapper.toDomain(message).get());
+		const messages = messagesFound.map((message) =>
+			MessageMapper.toDomain(message).get(),
+		);
+
+		return Either.right(messages);
 	}
 }

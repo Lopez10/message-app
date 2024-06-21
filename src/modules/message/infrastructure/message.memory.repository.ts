@@ -11,9 +11,11 @@ export class MessageMemoryRepository implements MessageRepositoryPort {
 		return Either.right(undefined);
 	}
 
-	async findAllByReceiverId(receiverId: Id): Promise<Message[]> {
-		return await this.messages.filter((message) =>
+	async findAllByReceiverId(receiverId: Id): Promise<Either<void, Message[]>> {
+		const messages = await this.messages.filter((message) =>
 			receiverId.isEqual(message.receiverId),
 		);
+
+		return Either.right(messages);
 	}
 }
