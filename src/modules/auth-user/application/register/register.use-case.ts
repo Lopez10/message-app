@@ -66,7 +66,7 @@ export class Register
 		}
 
 		const existingUser = await this.userRepository.findByEmail(email.get());
-		if (existingUser) {
+		if (existingUser.isRight()) {
 			return Either.left(new UserAlreadyExistsException());
 		}
 

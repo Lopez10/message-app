@@ -1,7 +1,7 @@
 import { Either, Id } from '@lib';
 import { Email } from '../domain/email.value-object';
 import { User, type UserPrimitives } from '../domain/user.entity';
-import { UserEntityUnknownException } from '../domain/user.entity.exception';
+import { UserEntityUnknownException } from '../domain/user.exception';
 
 export class UserMapper {
 	static toDomain(

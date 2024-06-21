@@ -19,6 +19,7 @@ import {
 import { Email } from '@modules/user/domain/email.value-object';
 import { LoginDto, TokenResponse } from '@modules/auth/application/auth.mapper';
 import { AuthNotFoundException } from '@modules/auth/domain/auth.exception';
+import { UserNotFoundException } from '@modules/user/domain/user.exception';
 
 @Injectable()
 export class Login
@@ -29,7 +30,8 @@ export class Login
 				| InvalidEmailOrPasswordException
 				| InvalidEmailFormatException
 				| UnexpectedError
-				| AuthNotFoundException,
+				| AuthNotFoundException
+				| UserNotFoundException,
 				TokenResponse
 			>
 		>
@@ -49,21 +51,24 @@ export class Login
 			| InvalidEmailOrPasswordException
 			| InvalidEmailFormatException
 			| UnexpectedError
-			| AuthNotFoundException,
+			| AuthNotFoundException
+			| UserNotFoundException,
 			TokenResponse
 		>
 	> {
 		const email = Email.create(request.email);
 		if (email.isLeft()) {
-			return Either.left(new InvalidEmailFormatException());
+			return Either.left(email.getLeft());
 		}
 
 		const user = await this.userRepository.findByEmail(email.get());
-		if (!user) {
-			return Either.left(new InvalidEmailOrPasswordException());
+		if (user.isLeft()) {
+			return Either.left(user.getLeft());
 		}
 
-		const auth = await this.authRepository.findByUserId(user.id);
+		const userFound = user.get();
+
+		const auth = await this.authRepository.findByUserId(userFound.id);
 		if (auth.isLeft()) {
 			return Either.left(auth.getLeft());
 		}
@@ -74,9 +79,9 @@ export class Login
 		}
 
 		const accessToken = this.jwtService.generateToken({
-			email: user.email.value,
-			id: user.id.value,
-			name: user.name,
+			email: userFound.email.value,
+			id: userFound.id.value,
+			name: userFound.name,
 		});
 
 		const response: TokenResponse = {
