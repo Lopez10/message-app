@@ -47,27 +47,27 @@ cd message-app
 https://pnpm.io/installation
 ```
 
-2. Install dependencies:
+3. Install dependencies:
 ```bash
 pnpm install
 ```
 
-3. Set up environment variables:
+4. Set up environment variables:
 ```
-Create a `.env.local` file in the root of the project with the `.env.local.example` content.
+Create a `.env.local` file in the root of the project with the `.env.local.example` content
 ```
 
-4. Start the Docker container
+5. Start the Docker container
 ```bash
 make docker-local-up
 ```
 
-5. Create Prisma database
+6. Create Prisma database
 ```bash
 pnpm prisma:db:create:local
 ```
 
-6. Start the project 
+7. Start the project 
 ```bash
 pnpm start:local
 ```
