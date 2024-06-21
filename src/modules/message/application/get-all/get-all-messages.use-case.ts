@@ -31,7 +31,9 @@ export class GetAllMessages
 	): Promise<Either<void, MessageDto[]>> {
 		const user = new Id(getAllMessagesDto.userId);
 		const messages = await this.messageRepository.findAllByReceiverId(user);
-		const messagesDto = messages.map((message) => MessageMapper.toDto(message));
+		const messagesDto = messages
+			.get()
+			.map((message) => MessageMapper.toDto(message));
 
 		return Either.right(messagesDto);
 	}

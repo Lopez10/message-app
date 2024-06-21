@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaModule } from '@modules/prisma/prisma.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
 import { UserPrismaRepository } from './infrastructure/user.prisma.repository';
 import { UserRepositoryPortSymbol } from './domain/user.repository.port';
 import { UserController } from './presentation/user.controller';

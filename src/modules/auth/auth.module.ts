@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaModule } from '@modules/prisma/prisma.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
 import { AuthPrismaRepository } from './infrastructure/auth.prisma.repository';
 import { AuthRepositoryPortSymbol } from './domain/auth.repository.port';
 import { JwtTokenServiceSymbol } from './domain/jwt/jwt-token.service.port';

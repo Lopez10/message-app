@@ -1,5 +1,5 @@
 import { Either, Entity, Id } from '@lib';
-import { MessageEntityUnknownException } from './message.entity.exception';
+import { MessageEntityUnknownException } from './message.exception';
 
 export interface MessagePrimitives {
 	id: string;

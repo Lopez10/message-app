@@ -5,8 +5,8 @@ import { UserPrimitives } from '@modules/user/domain/user.entity';
 import { UserRepositoryPortSymbol } from '@modules/user/domain/user.repository.port';
 import { UserPrismaRepository } from '@modules/user/infrastructure/user.prisma.repository';
 import { Inject, Injectable } from '@nestjs/common';
-import { UserNotFoundException } from '../user.exception';
 import { UserMapper } from '../user.mapper';
+import { UserNotFoundException } from '@modules/user/domain/user.exception';
 
 @Injectable()
 export class GetUserByEmail
@@ -35,10 +35,10 @@ export class GetUserByEmail
 
 		const user = await this.userRepository.findByEmail(emailVo.get());
 
-		if (!user) {
-			return Either.left(new UserNotFoundException());
+		if (user.isLeft()) {
+			return Either.left(user.getLeft());
 		}
 
-		return Either.right(UserMapper.toDto(user));
+		return Either.right(UserMapper.toDto(user.get()));
 	}
 }

@@ -12,6 +12,16 @@
 				{
 					"name": "Get active users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -38,7 +48,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6IjczZGFmYmUwLTFlZjQtNDMwNy1iNDVlLTZmMWVkNDgxZGRhZSIsIm5hbWUiOiJUZXN0IE5hbWUiLCJpYXQiOjE3MTg5MTAzODIsImV4cCI6MTcxODkxMzk4Mn0.2vjTGZM5CxQheKpof8pcBDSlUdTkbU8cj7A6ALz7Src",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -70,7 +80,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6IjczZGFmYmUwLTFlZjQtNDMwNy1iNDVlLTZmMWVkNDgxZGRhZSIsIm5hbWUiOiJUZXN0IE5hbWUiLCJpYXQiOjE3MTg5MTAzODIsImV4cCI6MTcxODkxMzk4Mn0.2vjTGZM5CxQheKpof8pcBDSlUdTkbU8cj7A6ALz7Src",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -101,7 +111,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6IjczZGFmYmUwLTFlZjQtNDMwNy1iNDVlLTZmMWVkNDgxZGRhZSIsIm5hbWUiOiJUZXN0IE5hbWUiLCJpYXQiOjE3MTg5MTAzODIsImV4cCI6MTcxODkxMzk4Mn0.2vjTGZM5CxQheKpof8pcBDSlUdTkbU8cj7A6ALz7Src",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -145,7 +155,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"test@test.com\",\n  \"password\": \"12345TestValid\",\n  \"name\": \"Test Name\"\n}",
+							"raw": "{\n  \"email\": \"test2@test.com\",\n  \"password\": \"12345TestValid\",\n  \"name\": \"Test Name\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -175,7 +185,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"test@test.com\",\n  \"password\": \"12345TestValid\"\n}",
+							"raw": "{\n  \"email\": \"test1@test.com\",\n  \"password\": \"12345TestValid\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -206,7 +216,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6IjczZGFmYmUwLTFlZjQtNDMwNy1iNDVlLTZmMWVkNDgxZGRhZSIsIm5hbWUiOiJUZXN0IE5hbWUiLCJpYXQiOjE3MTg5MTAzODIsImV4cCI6MTcxODkxMzk4Mn0.2vjTGZM5CxQheKpof8pcBDSlUdTkbU8cj7A6ALz7Src",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -237,6 +247,16 @@
 				{
 					"name": "Get messages",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -258,11 +278,21 @@
 				{
 					"name": "send",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"content\": \"Hello, world!\",\n  \"receiverId\": \"40735409-a410-4aa8-b26a-242dc4399899\"\n}",
+							"raw": "{\n  \"content\": \"Hello, world!\",\n  \"receiverId\": \"a57028e8-acff-4956-a134-0809cf4ad122\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -292,12 +322,40 @@
 				{
 					"name": "Get notifications",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/notifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"notifications"
+							]
+						}
 					},
 					"response": []
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6IjczZGFmYmUwLTFlZjQtNDMwNy1iNDVlLTZmMWVkNDgxZGRhZSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTcxODk1MzY2OSwiZXhwIjoxNzE4OTU3MjY5fQ.pyMCBUMIhufpnnqpBZhomT7Bb1Td_piLKDqDhT3_Z6o"
 		}
 	]
 }

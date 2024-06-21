@@ -5,6 +5,7 @@ import {
 	Body,
 	Controller,
 	Get,
+	HttpException,
 	Inject,
 	Patch,
 	Put,
@@ -54,7 +55,14 @@ export class UserController {
 	async updateStatus(@Request() req) {
 		const updateStatus = new UpdateUserStatus(this.userRepository);
 
-		await updateStatus.run(req.user.email);
+		const statusUpdated = await updateStatus.run(req.user.email);
+
+		if (statusUpdated.isLeft()) {
+			const error = statusUpdated.getLeft();
+			throw new HttpException(error.message, 500);
+		}
+
+		return { message: 'User status updated' };
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -92,6 +100,13 @@ export class UserController {
 			updateUserBody: body,
 		};
 
-		await updateUser.run(userDto);
+		const userUpdated = await updateUser.run(userDto);
+
+		if (userUpdated.isLeft()) {
+			const error = userUpdated.getLeft();
+			throw new HttpException(error.message, 500);
+		}
+
+		return { message: 'User updated' };
 	}
 }

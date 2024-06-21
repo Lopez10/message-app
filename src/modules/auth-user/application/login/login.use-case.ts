@@ -1,4 +1,4 @@
-import { Either, type UseCase } from '@lib';
+import { Either, UnexpectedError, type UseCase } from '@lib';
 
 import {
 	UserRepositoryPortSymbol,
@@ -18,6 +18,8 @@ import {
 } from '@modules/auth/domain/jwt/jwt-token.service.port';
 import { Email } from '@modules/user/domain/email.value-object';
 import { LoginDto, TokenResponse } from '@modules/auth/application/auth.mapper';
+import { AuthNotFoundException } from '@modules/auth/domain/auth.exception';
+import { UserNotFoundException } from '@modules/user/domain/user.exception';
 
 @Injectable()
 export class Login
@@ -25,7 +27,11 @@ export class Login
 		UseCase<
 			LoginDto,
 			Either<
-				InvalidEmailOrPasswordException | InvalidEmailFormatException,
+				| InvalidEmailOrPasswordException
+				| InvalidEmailFormatException
+				| UnexpectedError
+				| AuthNotFoundException
+				| UserNotFoundException,
 				TokenResponse
 			>
 		>
@@ -42,34 +48,40 @@ export class Login
 		request: LoginDto,
 	): Promise<
 		Either<
-			InvalidEmailOrPasswordException | InvalidEmailFormatException,
+			| InvalidEmailOrPasswordException
+			| InvalidEmailFormatException
+			| UnexpectedError
+			| AuthNotFoundException
+			| UserNotFoundException,
 			TokenResponse
 		>
 	> {
 		const email = Email.create(request.email);
 		if (email.isLeft()) {
-			return Either.left(new InvalidEmailFormatException());
+			return Either.left(email.getLeft());
 		}
 
 		const user = await this.userRepository.findByEmail(email.get());
-		if (!user) {
-			return Either.left(new InvalidEmailOrPasswordException());
+		if (user.isLeft()) {
+			return Either.left(user.getLeft());
 		}
 
-		const auth = await this.authRepository.findByUserId(user.id);
-		if (!auth) {
-			return Either.left(new InvalidEmailOrPasswordException());
+		const userFound = user.get();
+
+		const auth = await this.authRepository.findByUserId(userFound.id);
+		if (auth.isLeft()) {
+			return Either.left(auth.getLeft());
 		}
 
-		const isPasswordMatch = await auth.password.compare(request.password);
+		const isPasswordMatch = await auth.get().password.compare(request.password);
 		if (!isPasswordMatch) {
 			return Either.left(new InvalidEmailOrPasswordException());
 		}
 
 		const accessToken = this.jwtService.generateToken({
-			email: user.email.value,
-			id: user.id.value,
-			name: user.name,
+			email: userFound.email.value,
+			id: userFound.id.value,
+			name: userFound.name,
 		});
 
 		const response: TokenResponse = {

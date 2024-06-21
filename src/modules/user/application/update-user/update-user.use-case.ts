@@ -1,4 +1,4 @@
-import { Either, UseCase } from '@lib';
+import { Either, Success, UseCase } from '@lib';
 import { User, UserPrimitives } from '@modules/user/domain/user.entity';
 import {
 	UserRepositoryPortSymbol,
@@ -6,7 +6,7 @@ import {
 } from '@modules/user/domain/user.repository.port';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserMapper } from '../user.mapper';
-import { UserEntityUnknownException } from '@modules/user/domain/user.entity.exception';
+import { UserEntityUnknownException } from '@modules/user/domain/user.exception';
 import { UpdateUserBody } from './update-user.mapper';
 import { Email } from '@modules/user/domain/email.value-object';
 import { InvalidEmailFormatException } from '@modules/user/domain/email.value-object.exception';
@@ -49,5 +49,7 @@ export class UpdateUser
 		}
 
 		await this.userRepository.update(user.get());
+
+		return Either.right(undefined);
 	}
 }

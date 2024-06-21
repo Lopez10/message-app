@@ -1,59 +1,74 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { UserRepositoryPort } from '../domain/user.repository.port';
-import { PrismaService } from '@modules/prisma/prisma.service';
-import type { Id } from '@lib';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Either, Id, UnexpectedError } from '@lib';
 import type { Email } from '../domain/email.value-object';
 import type { User, UserPrimitives } from '../domain/user.entity';
 import { UserMapper } from '../application/user.mapper';
 import type { User as UserPrisma } from '@prisma/client';
+import { UserNotFoundException } from '../domain/user.exception';
 
 @Injectable()
 export class UserPrismaRepository implements UserRepositoryPort {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async findByEmail(email: Email): Promise<User | null> {
-		const user: UserPrisma = await this.prisma.user.findUnique({
+	async findByEmail(
+		email: Email,
+	): Promise<Either<UserNotFoundException, User>> {
+		const userPersistence: UserPrisma = await this.prisma.user.findUnique({
 			where: {
 				email: email.value,
 			},
 		});
 
-		if (!user) return null;
+		if (!userPersistence) {
+			return Either.left(new UserNotFoundException());
+		}
 
-		return UserMapper.toDomain(user).get();
+		const user = UserMapper.toDomain(userPersistence).get();
+
+		return Either.right(user);
 	}
 
-	async findById(id: Id): Promise<User | null> {
-		const user: UserPrisma = await this.prisma.user.findUnique({
+	async findById(id: Id): Promise<Either<UserNotFoundException, User>> {
+		const userFound: UserPrisma = await this.prisma.user.findUnique({
 			where: {
 				id: id.value,
 			},
 		});
 
-		if (!user) return null;
+		if (!userFound) {
+			return Either.left(new UserNotFoundException());
+		}
 
-		return UserMapper.toDomain(user).get();
+		const user = UserMapper.toDomain(userFound).get();
+
+		return Either.right(user);
 	}
 
-	async insert(user: User): Promise<void> {
+	async insert(user: User): Promise<Either<UnexpectedError, void>> {
 		const userPrisma: UserPrimitives = UserMapper.toDto(user);
 
 		await this.prisma.user.create({
 			data: userPrisma,
 		});
+
+		return Either.right(undefined);
 	}
 
-	async getActiveUsers(): Promise<User[]> {
-		const usersPersistence: UserPrisma[] = await this.prisma.user.findMany({
+	async getActiveUsers(): Promise<Either<void, User[]>> {
+		const usersFound: UserPrisma[] = await this.prisma.user.findMany({
 			where: {
 				isActive: true,
 			},
 		});
 
-		return usersPersistence.map((user) => UserMapper.toDomain(user).get());
+		const users = usersFound.map((user) => UserMapper.toDomain(user).get());
+
+		return Either.right(users);
 	}
 
-	async update(user: User): Promise<void> {
+	async update(user: User): Promise<Either<UnexpectedError, void>> {
 		const userPrisma: UserPrimitives = UserMapper.toDto(user);
 
 		await this.prisma.user.update({
@@ -62,5 +77,7 @@ export class UserPrismaRepository implements UserRepositoryPort {
 			},
 			data: userPrisma,
 		});
+
+		return Either.right(undefined);
 	}
 }

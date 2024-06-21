@@ -52,11 +52,11 @@ describe('Register Use Case', () => {
 		// AND
 		const user = await userRepository.findByEmail(Email.create(email).get());
 		expect(user).toBeDefined();
-		expect(user.email.value).toEqual(email);
+		expect(user.get().email.value).toEqual(email);
 
-		const auth = await authRepository.findByUserId(user.id);
+		const auth = await authRepository.findByUserId(user.get().id);
 		expect(auth).toBeDefined();
-		expect(auth.password.compare(password)).toBeTruthy();
+		expect(auth.get().password.compare(password)).toBeTruthy();
 	});
 
 	it(`
