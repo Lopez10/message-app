@@ -7,7 +7,7 @@ export interface UserRepositoryPort {
 	findByEmail(email: Email): Promise<Either<UserNotFoundException, User>>;
 	findById(id: Id): Promise<Either<UserNotFoundException, User>>;
 	insert(user: User): Promise<Either<UnexpectedError, void>>;
-	getActiveUsers(): Promise<User[]>;
+	getActiveUsers(): Promise<Either<void, User[]>>;
 	update(user: User): Promise<void>;
 }
 

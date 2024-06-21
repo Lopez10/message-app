@@ -15,8 +15,8 @@ export class GetActiveUsers
 	) {}
 
 	async run(): Promise<Either<void, UserPrimitives[]>> {
-		const activeUsers: User[] = await this.userRepository.getActiveUsers();
+		const activeUsers = await this.userRepository.getActiveUsers();
 
-		return Either.right(activeUsers.map(UserMapper.toDto));
+		return Either.right(activeUsers.get().map(UserMapper.toDto));
 	}
 }

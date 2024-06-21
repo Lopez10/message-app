@@ -56,14 +56,16 @@ export class UserPrismaRepository implements UserRepositoryPort {
 		return Either.right(undefined);
 	}
 
-	async getActiveUsers(): Promise<User[]> {
-		const usersPersistence: UserPrisma[] = await this.prisma.user.findMany({
+	async getActiveUsers(): Promise<Either<void, User[]>> {
+		const usersFound: UserPrisma[] = await this.prisma.user.findMany({
 			where: {
 				isActive: true,
 			},
 		});
 
-		return usersPersistence.map((user) => UserMapper.toDomain(user).get());
+		const users = usersFound.map((user) => UserMapper.toDomain(user).get());
+
+		return Either.right(users);
 	}
 
 	async update(user: User): Promise<void> {

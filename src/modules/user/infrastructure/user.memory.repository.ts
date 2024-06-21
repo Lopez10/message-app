@@ -5,12 +5,6 @@ import type { Email } from '../domain/email.value-object';
 import { UserNotFoundException } from '../domain/user.exception';
 
 export class UserMemoryRepository implements UserRepositoryPort {
-	getActiveUsers(): Promise<User[]> {
-		throw new Error('Method not implemented.');
-	}
-	update(user: User): Promise<void> {
-		throw new Error('Method not implemented.');
-	}
 	private users: User[] = [];
 
 	async findByEmail(
@@ -39,5 +33,12 @@ export class UserMemoryRepository implements UserRepositoryPort {
 		this.users.push(user);
 
 		return Either.right(undefined);
+	}
+
+	getActiveUsers(): Promise<Either<void, User[]>> {
+		throw new Error('Method not implemented.');
+	}
+	update(user: User): Promise<void> {
+		throw new Error('Method not implemented.');
 	}
 }
