@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Message } from '../domain/message.entity';
 import { MessageRepositoryPort } from '../domain/message.repository.port';
-import { PrismaService } from '@modules/prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { MessageMapper } from '../application/message.mapper';
 import { Either, Id, UnexpectedError } from '@lib';
 

@@ -1,4 +1,4 @@
-import { PrismaModule } from '@modules/prisma/prisma.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { AuthUserController } from './presentation/auth-user.controller';
