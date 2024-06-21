@@ -55,7 +55,14 @@ export class UserController {
 	async updateStatus(@Request() req) {
 		const updateStatus = new UpdateUserStatus(this.userRepository);
 
-		await updateStatus.run(req.user.email);
+		const statusUpdated = await updateStatus.run(req.user.email);
+
+		if (statusUpdated.isLeft()) {
+			const error = statusUpdated.getLeft();
+			throw new HttpException(error.message, 500);
+		}
+
+		return { message: 'User status updated' };
 	}
 
 	@UseGuards(JwtAuthGuard)

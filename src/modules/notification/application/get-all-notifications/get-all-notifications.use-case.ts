@@ -23,9 +23,9 @@ export class GetAllNotifications
 		const notifications =
 			await this.notificationRepository.findAllByUserId(userId);
 
-		const notificationDtos = notifications.map((notification) =>
-			NotificationMapper.toDto(notification),
-		);
+		const notificationDtos = notifications
+			.get()
+			.map((notification) => NotificationMapper.toDto(notification));
 
 		return Either.right(notificationDtos);
 	}
