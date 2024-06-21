@@ -68,7 +68,7 @@ export class UserPrismaRepository implements UserRepositoryPort {
 		return Either.right(users);
 	}
 
-	async update(user: User): Promise<void> {
+	async update(user: User): Promise<Either<UnexpectedError, void>> {
 		const userPrisma: UserPrimitives = UserMapper.toDto(user);
 
 		await this.prisma.user.update({
@@ -77,5 +77,7 @@ export class UserPrismaRepository implements UserRepositoryPort {
 			},
 			data: userPrisma,
 		});
+
+		return Either.right(undefined);
 	}
 }

@@ -38,7 +38,7 @@ export class UserMemoryRepository implements UserRepositoryPort {
 	getActiveUsers(): Promise<Either<void, User[]>> {
 		throw new Error('Method not implemented.');
 	}
-	update(user: User): Promise<void> {
+	update(user: User): Promise<Either<UnexpectedError, void>> {
 		throw new Error('Method not implemented.');
 	}
 }

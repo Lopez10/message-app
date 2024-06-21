@@ -8,7 +8,7 @@ export interface UserRepositoryPort {
 	findById(id: Id): Promise<Either<UserNotFoundException, User>>;
 	insert(user: User): Promise<Either<UnexpectedError, void>>;
 	getActiveUsers(): Promise<Either<void, User[]>>;
-	update(user: User): Promise<void>;
+	update(user: User): Promise<Either<UnexpectedError, void>>;
 }
 
 export const UserRepositoryPortSymbol = Symbol('UserRepositoryPort');

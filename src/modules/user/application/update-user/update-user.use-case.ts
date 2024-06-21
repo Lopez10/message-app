@@ -1,4 +1,4 @@
-import { Either, UseCase } from '@lib';
+import { Either, Success, UseCase } from '@lib';
 import { User, UserPrimitives } from '@modules/user/domain/user.entity';
 import {
 	UserRepositoryPortSymbol,
@@ -49,5 +49,7 @@ export class UpdateUser
 		}
 
 		await this.userRepository.update(user.get());
+
+		return Either.right(undefined);
 	}
 }

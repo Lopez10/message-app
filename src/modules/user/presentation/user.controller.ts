@@ -5,6 +5,7 @@ import {
 	Body,
 	Controller,
 	Get,
+	HttpException,
 	Inject,
 	Patch,
 	Put,
@@ -92,6 +93,13 @@ export class UserController {
 			updateUserBody: body,
 		};
 
-		await updateUser.run(userDto);
+		const userUpdated = await updateUser.run(userDto);
+
+		if (userUpdated.isLeft()) {
+			const error = userUpdated.getLeft();
+			throw new HttpException(error.message, 500);
+		}
+
+		return { message: 'User updated' };
 	}
 }
