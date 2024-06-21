@@ -1,7 +1,7 @@
 import { Either, Id, Success, UseCase } from '@lib';
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateMessageDto, CreateMessageMapper } from './create-message.mapper';
-import { MessageEntityUnknownException } from '@modules/message/domain/message.entity.exception';
+import { MessageEntityUnknownException } from '@modules/message/domain/message.exception';
 import {
 	MessageRepositoryPort,
 	MessageRepositoryPortSymbol,

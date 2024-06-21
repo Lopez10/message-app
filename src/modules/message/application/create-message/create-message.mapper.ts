@@ -1,6 +1,6 @@
 import { Either, Id } from '@lib';
 import { Message } from '@modules/message/domain/message.entity';
-import { MessageEntityUnknownException } from '@modules/message/domain/message.entity.exception';
+import { MessageEntityUnknownException } from '@modules/message/domain/message.exception';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateMessageDto {

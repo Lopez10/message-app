@@ -1,6 +1,6 @@
 import { Either, Id } from '@lib';
 import { Message, MessagePrimitives } from '../domain/message.entity';
-import { MessageEntityUnknownException } from '../domain/message.entity.exception';
+import { MessageEntityUnknownException } from '../domain/message.exception';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class MessageMapper {
