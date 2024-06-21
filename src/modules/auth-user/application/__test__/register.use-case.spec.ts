@@ -56,7 +56,7 @@ describe('Register Use Case', () => {
 
 		const auth = await authRepository.findByUserId(user.id);
 		expect(auth).toBeDefined();
-		expect(auth.password.compare(password)).toBeTruthy();
+		expect(auth.get().password.compare(password)).toBeTruthy();
 	});
 
 	it(`

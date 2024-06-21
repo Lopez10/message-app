@@ -1,6 +1,6 @@
 import { Either, Entity, type Id } from '@lib';
 import type { Password } from './password.value-object';
-import type { AuthEntityUnknownException } from './auth.entity.exception';
+import type { AuthEntityUnknownException } from './auth.exception';
 
 export interface AuthProps {
 	userId: Id;

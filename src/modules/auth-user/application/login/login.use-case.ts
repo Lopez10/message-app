@@ -1,4 +1,4 @@
-import { Either, type UseCase } from '@lib';
+import { Either, UnexpectedError, type UseCase } from '@lib';
 
 import {
 	UserRepositoryPortSymbol,
@@ -18,6 +18,7 @@ import {
 } from '@modules/auth/domain/jwt/jwt-token.service.port';
 import { Email } from '@modules/user/domain/email.value-object';
 import { LoginDto, TokenResponse } from '@modules/auth/application/auth.mapper';
+import { AuthNotFoundException } from '@modules/auth/domain/auth.exception';
 
 @Injectable()
 export class Login
@@ -25,7 +26,10 @@ export class Login
 		UseCase<
 			LoginDto,
 			Either<
-				InvalidEmailOrPasswordException | InvalidEmailFormatException,
+				| InvalidEmailOrPasswordException
+				| InvalidEmailFormatException
+				| UnexpectedError
+				| AuthNotFoundException,
 				TokenResponse
 			>
 		>
@@ -42,7 +46,10 @@ export class Login
 		request: LoginDto,
 	): Promise<
 		Either<
-			InvalidEmailOrPasswordException | InvalidEmailFormatException,
+			| InvalidEmailOrPasswordException
+			| InvalidEmailFormatException
+			| UnexpectedError
+			| AuthNotFoundException,
 			TokenResponse
 		>
 	> {
@@ -57,11 +64,11 @@ export class Login
 		}
 
 		const auth = await this.authRepository.findByUserId(user.id);
-		if (!auth) {
-			return Either.left(new InvalidEmailOrPasswordException());
+		if (auth.isLeft()) {
+			return Either.left(auth.getLeft());
 		}
 
-		const isPasswordMatch = await auth.password.compare(request.password);
+		const isPasswordMatch = await auth.get().password.compare(request.password);
 		if (!isPasswordMatch) {
 			return Either.left(new InvalidEmailOrPasswordException());
 		}
