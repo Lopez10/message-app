@@ -6,7 +6,7 @@ import {
 	NotificationPrimitives,
 } from '../domain/notification.entity';
 import { NotificationMapper } from '../application/notification.mapper';
-import { Id } from '@lib';
+import { Either, Id, UnexpectedError } from '@lib';
 
 @Injectable()
 export class NotificationPrismaRepository
@@ -14,24 +14,32 @@ export class NotificationPrismaRepository
 {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async insert(notification: Notification): Promise<void> {
+	async insert(
+		notification: Notification,
+	): Promise<Either<UnexpectedError, void>> {
 		const notificationDto: NotificationPrimitives =
 			NotificationMapper.toDto(notification);
 
 		await this.prisma.notification.create({
 			data: notificationDto,
 		});
+
+		return Either.right(undefined);
 	}
 
-	async findAllByUserId(userId: Id): Promise<Notification[]> {
-		const notifications = await this.prisma.notification.findMany({
+	async findAllByUserId(
+		userId: Id,
+	): Promise<Either<UnexpectedError, Notification[]>> {
+		const notificationsFound = await this.prisma.notification.findMany({
 			where: {
 				userId: userId.value,
 			},
 		});
 
-		return notifications.map((notification) =>
+		const notifications = notificationsFound.map((notification) =>
 			NotificationMapper.toDomain(notification).get(),
 		);
+
+		return Either.right(notifications);
 	}
 }
