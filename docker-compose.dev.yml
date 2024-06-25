@@ -30,6 +30,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - .env.dev
     entrypoint:
@@ -38,6 +40,30 @@ services:
         "-c",
         "npx prisma db push && pnpm start:migrate:dev"
       ]
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env.dev
+    healthcheck:
+      test: [ "CMD-SHELL", "rabbitmq-diagnostics -q ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  notification-service:
+    container_name: notification-service
+    build:
+      context: ./service/notification
+      dockerfile: Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    env_file:
+      - .env.dev
 
 volumes:
   postgres:

@@ -20,6 +20,7 @@ import { UserPrismaRepository } from '@modules/user/infrastructure/user.prisma.r
 import { MessageDto } from '../application/message.mapper';
 import { GetAllMessages } from '../application/get-all-messages/get-all-messages.use-case';
 import { CreateNotification } from '@modules/notification/application/create-notification/create-notification.use-case';
+import { ClientProxy } from '@nestjs/microservices';
 import {
 	NotificationRepositoryPort,
 	NotificationRepositoryPortSymbol,
@@ -35,6 +36,7 @@ export class MessageController {
 		private readonly userRepository: UserPrismaRepository,
 		@Inject(NotificationRepositoryPortSymbol)
 		private readonly notificationRepository: NotificationRepositoryPort,
+		@Inject('NOTIFICATIONS_SERVICE') private readonly client: ClientProxy,
 	) {}
 
 	@UseGuards(JwtAuthGuard)
@@ -69,6 +71,11 @@ export class MessageController {
 			message: createMessageBodyDto.content,
 			isRead: false,
 		});
+
+		// this.client.emit('send_notification', {
+		// 	userId: createMessageBodyDto.receiverId,
+		// 	message: createMessageBodyDto.content,
+		// });
 
 		if (messageCreated.isLeft()) {
 			const error = messageCreated.getLeft();
@@ -111,5 +118,14 @@ export class MessageController {
 		// }
 
 		return messages.get();
+	}
+
+	@Post('test')
+	@ApiResponse({
+		status: 201,
+		description: 'Message created',
+	})
+	async test() {
+		this.client.emit('notification_created', { message: 'Hello' });
 	}
 }
