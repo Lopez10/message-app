@@ -25,6 +25,7 @@ import {
 	NotificationRepositoryPort,
 	NotificationRepositoryPortSymbol,
 } from '@modules/notification/domain/notification.repository.port';
+import { NOTIFICATION_CREATED } from '@modules/patterns';
 
 @ApiTags('messages')
 @Controller('messages')
@@ -126,6 +127,6 @@ export class MessageController {
 		description: 'Message created',
 	})
 	async test() {
-		this.client.emit('notification_created', { message: 'Hello' });
+		this.client.emit(NOTIFICATION_CREATED, { message: 'Hello' });
 	}
 }
