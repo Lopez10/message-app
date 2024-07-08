@@ -23,7 +23,7 @@ export class Auth extends Entity<AuthProps> {
 	}
 
 	private constructor(props: AuthProps, id?: Id) {
-		super(props);
+		super(props, id);
 	}
 
 	public static create(
